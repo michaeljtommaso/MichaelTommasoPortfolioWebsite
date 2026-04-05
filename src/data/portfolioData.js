@@ -61,18 +61,18 @@ export const skills = [
 
 export const experiences = [
   {
-    company: "GE Aerospace",
-    role: "Engineering Intern",
-    period: "Aug 2024",
-    description:
-      "Selected for a competitive internship exploring aerospace systems, hypersonic technology, and engineering workflows.",
-  },
-  {
     company: "Empire Environmental",
     role: "CAD Associate",
     period: "Jun 2025 – Aug 2025",
     description:
       "Produced CAD layouts and collaborated with engineers to refine technical designs across multiple iterations.",
+  },
+  {
+    company: "GE Aerospace",
+    role: "Engineering Intern",
+    period: "Aug 2024",
+    description:
+      "Selected for a competitive internship exploring aerospace systems, hypersonic technology, and engineering workflows.",
   },
   {
     company: "Bay Ridge Fish Bar",
