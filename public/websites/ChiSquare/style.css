@@ -1,0 +1,57 @@
+*,*::after, *::before {
+  box-sizing: border-box;
+}
+
+:root {
+  --cell-size: 90px;
+  --mark-size: calc(var(--cell-size) * .3);
+  --back-color: rgba(0, 136, 204, .3);
+}
+
+.container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.board1 {
+  display: grid;
+  padding: 10px 10px;
+  background: grey;
+  grid-gap: 10px;
+  grid-template-columns: repeat(7, auto);
+  grid-template-rows: repeat(3, auto);
+  transform: rotate(.25turn);
+}
+
+.cell {
+  background: lightgrey;
+  width: var(--cell-size);
+  height: calc(var(--cell-size) * 2);
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.txt {
+  font-size: var(--mark-size);
+  transform: rotate(-.25turn);
+}
+
+.inp {
+  background: lightgrey;
+  width: calc(var(--cell-size) * 2);
+  height: var(--cell-size);
+  border: 1px solid black;
+  font-size: var(--mark-size);
+  text-align: center;
+  transform: rotate(-.25turn);
+}

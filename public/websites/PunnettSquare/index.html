@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link href="style.css" rel="stylesheet" />
+    <script src="app.js" charset="utf-8" defer></script>
+    <title>Punnet Square</title>
+</head>
+<body>
+  <div class="gtype"><p id="gytpe" style="text-decoration: underline">Genotype:</p></div>
+  <div class="gtype"><p>Blue = Both dominant traits</p></div>
+  <div class="gtype"><p>Red/Green = one dominant trait</p></div>
+  <div class="gtype"><p>Yellow = Both reccesive traits</p></div>
+  <div class="ptype" id="pcontainer">
+    <div><p class="gtype" style="text-decoration: underline">Phenotype:</p><div>
+    <div class="gtype" id="pres1">First Dominant Trait:</div>
+    <input type="text" class="gtype" id="ptype1"/>
+    <div class="gtype" id="pres2">First Reccesive Trait:</div>
+    <input type="text" class="gtype" id="ptype2"/>
+    <div class="gtype" id="pres3">Second Dominant Trait:</div>
+    <input type="text" class="gtype" id="ptype3"/>
+    <div class="gtype" id="pres4">Second Reccesive Trait:</div>
+    <input type="text" class="gtype" id="ptype4"/>
+  </div>
+  <div class="container">
+    <div class="text-wrap">
+      <div class="cell-text" data-text-cell><input type="text" id="text5" class="text" maxlength="2"/></div>
+      <div class="cell-text" data-text-cell><input type="text" id="text6" class="text" maxlength="2"/></div>
+      <div class="cell-text" data-text-cell><input type="text" id="text7" class="text" maxlength="2"/></div>
+      <div class="cell-text" data-text-cell><input type="text" id="text8" class="text" maxlength="2"/></div>
+    </div>
+    <div class="text-wrap1">
+      <div class="cell-text" data-text-cell><input type="text" id="text1" class="text" maxlength="2"/></div>
+      <div class="cell-text" data-text-cell><input type="text" id="text2" class="text" maxlength="2"/></div>
+      <div class="cell-text" data-text-cell><input type="text" id="text3" class="text" maxlength="2"/></div>
+      <div class="cell-text" data-text-cell><input type="text" id="text4" class="text" maxlength="2"/></div>
+    </div>
+    <div class="board1" id="board">
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+    </div>
+    <div>
+      <div>
+        <button class="btn" id="btn2">Copy Side</button>
+      </div>
+      <div>
+        <button class="btn" id="btn">Reverse Order</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
