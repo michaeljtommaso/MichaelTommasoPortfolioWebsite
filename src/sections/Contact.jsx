@@ -44,7 +44,7 @@ export default function Contact() {
         <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a href="https://www.linkedin.com/in/michaeltommaso" target="_blank" className="btn w-full text-center sm:w-auto">LinkedIn</a>
           <a href="https://github.com/michaeljtommaso" target="_blank" className="btn w-full text-center sm:w-auto">Github</a>
-          <a href="/public/Michael_Tommaso_Resume.docx.pdf" target="_blank" className="btn w-full text-center sm:w-auto">Download My Resume</a>
+          <a href="/resume.pdf" target="_blank" className="btn w-full text-center sm:w-auto">Download My Resume</a>
         </div>
 
         {/* FORM OR SUCCESS */}
