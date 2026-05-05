@@ -45,6 +45,7 @@ export default function Contact() {
           <a href="https://www.linkedin.com/in/michaeltommaso" target="_blank" className="btn w-full text-center sm:w-auto">LinkedIn</a>
           <a href="https://github.com/michaeljtommaso" target="_blank" className="btn w-full text-center sm:w-auto">Github</a>
           <a href="/resume.pdf" target="_blank" className="btn w-full text-center sm:w-auto">Download My Resume</a>
+          <a href="/phys1112studyguide/index.html" target="_blank" className="btn w-full text-center sm:w-auto">PHYS 1112 Study Guide</a>
         </div>
 
         {/* FORM OR SUCCESS */}

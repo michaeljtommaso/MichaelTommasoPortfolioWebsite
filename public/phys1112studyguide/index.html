@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHYS 1112 Final Exam Study Guide</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f7f7f5;
+    --bg3: #f0eeeb;
+    --text: #1a1a18;
+    --text2: #5a5a56;
+    --text3: #8a8a84;
+    --border: rgba(0,0,0,0.12);
+    --border2: rgba(0,0,0,0.22);
+    --info-bg: #e6f1fb;
+    --info-text: #0c447c;
+    --info-border: #378add;
+    --warn-bg: #faeeda;
+    --warn-text: #633806;
+    --warn-border: #ef9f27;
+    --danger-bg: #fcebeb;
+    --danger-text: #791f1f;
+    --danger-border: #e24b4a;
+    --success-bg: #eaf3de;
+    --success-text: #27500a;
+    --success-border: #639922;
+    --accent: #534AB7;
+    --accent-bg: #EEEDFE;
+    --accent-text: #26215C;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --mono: 'Courier New', Courier, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #242422;
+      --bg3: #2c2c2a;
+      --text: #f0eeeb;
+      --text2: #a8a8a2;
+      --text3: #6a6a64;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.2);
+      --info-bg: #0c2440;
+      --info-text: #85b7eb;
+      --info-border: #185fa5;
+      --warn-bg: #2a1e08;
+      --warn-text: #fac775;
+      --warn-border: #ba7517;
+      --danger-bg: #2a0f0f;
+      --danger-text: #f09595;
+      --danger-border: #a32d2d;
+      --success-bg: #142208;
+      --success-text: #c0dd97;
+      --success-border: #3b6d11;
+      --accent: #7F77DD;
+      --accent-bg: #26215C;
+      --accent-text: #CECBF6;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg3);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  header {
+    background: var(--bg);
+    border-bottom: 0.5px solid var(--border2);
+    padding: 1.25rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  header h1 { font-size: 17px; font-weight: 500; color: var(--text); }
+  header span { font-size: 13px; color: var(--text2); }
+  .layout { display: flex; max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem; gap: 1.5rem; }
+  nav {
+    width: 200px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 72px;
+    height: fit-content;
+  }
+  nav ul { list-style: none; }
+  nav li { margin-bottom: 2px; }
+  nav a {
+    display: block;
+    padding: 7px 12px;
+    font-size: 13px;
+    color: var(--text2);
+    text-decoration: none;
+    border-radius: var(--radius);
+    transition: all 0.12s;
+  }
+  nav a:hover { background: var(--bg2); color: var(--text); }
+  nav a.active { background: var(--accent-bg); color: var(--accent-text); font-weight: 500; }
+  nav .nav-group { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); padding: 10px 12px 4px; }
+  main { flex: 1; min-width: 0; }
+  section { margin-bottom: 2.5rem; scroll-margin-top: 80px; }
+  section h2 { font-size: 19px; font-weight: 500; color: var(--text); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 0.5px solid var(--border2); }
+  .card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.875rem;
+  }
+  .card h3 { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 0.75rem; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.6rem; margin-bottom: 0.75rem; }
+  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.6rem; margin-bottom: 0.75rem; }
+  .fbox {
+    background: var(--bg2);
+    border-radius: var(--radius);
+    padding: 0.55rem 0.8rem;
+    font-size: 13px;
+  }
+  .fbox .lbl { font-size: 11px; color: var(--text3); margin-bottom: 2px; }
+  .fbox .eq { font-family: var(--mono); font-size: 12.5px; color: var(--text); line-height: 1.5; }
+  .warn { background: var(--warn-bg); border-left: 3px solid var(--warn-border); padding: 0.6rem 0.85rem; margin-bottom: 0.75rem; font-size: 13px; color: var(--warn-text); border-radius: 0; }
+  .tip { background: var(--info-bg); border-left: 3px solid var(--info-border); padding: 0.6rem 0.85rem; margin-bottom: 0.75rem; font-size: 13px; color: var(--info-text); border-radius: 0; }
+  .good { background: var(--success-bg); border-left: 3px solid var(--success-border); padding: 0.6rem 0.85rem; margin-bottom: 0.75rem; font-size: 13px; color: var(--success-text); border-radius: 0; }
+  .danger { background: var(--danger-bg); border-left: 3px solid var(--danger-border); padding: 0.6rem 0.85rem; margin-bottom: 0.75rem; font-size: 13px; color: var(--danger-text); border-radius: 0; }
+  ul, ol { padding-left: 1.2rem; font-size: 13px; color: var(--text); line-height: 1.9; }
+  li { margin-bottom: 1px; }
+  p.note { font-size: 13px; color: var(--text2); line-height: 1.7; margin-bottom: 0.6rem; }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: var(--radius);
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .badge-warn { background: var(--warn-bg); color: var(--warn-text); }
+  .badge-danger { background: var(--danger-bg); color: var(--danger-text); }
+  .badge-good { background: var(--success-bg); color: var(--success-text); }
+  .badge-info { background: var(--info-bg); color: var(--info-text); }
+  .risk-1 { border-left: 3px solid var(--danger-border); }
+  .risk-2 { border-left: 3px solid var(--warn-border); }
+  .risk-3 { border-left: 3px solid var(--success-border); }
+  table { width: 100%; font-size: 12.5px; border-collapse: collapse; margin-bottom: 0.75rem; }
+  th { padding: 6px 8px; text-align: left; font-weight: 500; background: var(--bg2); border: 0.5px solid var(--border); color: var(--text2); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 6px 8px; border: 0.5px solid var(--border); font-size: 12.5px; vertical-align: top; }
+  td.mono { font-family: var(--mono); font-size: 11.5px; }
+  tr:nth-child(even) td { background: var(--bg2); }
+  .step { counter-increment: steps; display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+  .step-num { min-width: 24px; height: 24px; border-radius: 50%; background: var(--accent-bg); color: var(--accent-text); font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .step-body { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .step-body strong { font-weight: 500; }
+  .exam-block { border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 0.875rem 1rem; margin-bottom: 0.75rem; background: var(--bg); }
+  .exam-block .eb-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+  .exam-block .eb-title { font-size: 14px; font-weight: 500; }
+  .exam-block .eb-pts { font-size: 12px; color: var(--text2); }
+  .exam-block p { font-size: 13px; color: var(--text2); }
+  .divider { height: 0.5px; background: var(--border); margin: 1.5rem 0; }
+  code { font-family: var(--mono); font-size: 12px; background: var(--bg2); padding: 1px 5px; border-radius: 4px; color: var(--text); }
+  @media (max-width: 720px) {
+    .layout { flex-direction: column; padding: 1rem 0.75rem; }
+    nav { width: 100%; position: static; }
+    nav ul { display: flex; flex-wrap: wrap; gap: 4px; }
+    nav a { padding: 5px 10px; font-size: 12px; }
+    nav .nav-group { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>PHYS 1112 — Final Exam Study Guide</h1>
+    <span>Cornell University &nbsp;·&nbsp; Spring 2026 &nbsp;·&nbsp; 150 min &nbsp;·&nbsp; Ch. 9, 10, 11, 14, 17–20</span>
+  </div>
+  <span style="font-size:12px;color:var(--text3);">~4/5 post-Prelim 2 material</span>
+</header>
+
+<div class="layout">
+<nav>
+  <div class="nav-group">Exam Info</div>
+  <ul>
+    <li><a href="#prediction">Exam Prediction</a></li>
+    <li><a href="#traps">Your Weak Spots</a></li>
+  </ul>
+  <div class="nav-group">Mechanics</div>
+  <ul>
+    <li><a href="#rotation">Rotation</a></li>
+    <li><a href="#angmom">Angular Momentum</a></li>
+    <li><a href="#shm">SHM</a></li>
+  </ul>
+  <div class="nav-group">Thermodynamics</div>
+  <ul>
+    <li><a href="#heat">Heat Transfer</a></li>
+    <li><a href="#idealgas">Ideal Gas</a></li>
+    <li><a href="#processes">4 Processes</a></li>
+    <li><a href="#engines">Engines</a></li>
+  </ul>
+  <div class="nav-group">Co-op Answers</div>
+  <ul>
+    <li><a href="#coops">All 9 Co-ops</a></li>
+  </ul>
+  <div class="nav-group">Drills</div>
+  <ul>
+    <li><a href="#cycle-drill">Cycle Worked Example</a></li>
+    <li><a href="#shm-template">SHM Template</a></li>
+    <li><a href="#checklist">FR Checklist</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- EXAM PREDICTION -->
+<section id="prediction">
+  <h2>Exam prediction</h2>
+  <p class="note" style="margin-bottom:1rem;">Based on both prelims, all 9 co-ops, HW 8–12, and an old final exam from this same course. Structure: short MC block + 4–5 multi-part free response problems.</p>
+
+  <div class="exam-block risk-1">
+    <div class="eb-header"><span class="eb-title">Problem: Novel SHM oscillator <span class="badge badge-danger">Risk 1</span></span><span class="eb-pts">~35 pts</span></div>
+    <p>New physical setup — derive restoring force from scratch, show F = −kx, extract k_eff, find ω₀, f, T, discuss mass dependence. Confirmed by old final Problem 15 (literally COOP 10B setup).</p>
+  </div>
+  <div class="exam-block risk-1">
+    <div class="eb-header"><span class="eb-title">Problem: Thermodynamic cycle <span class="badge badge-danger">Risk 1</span></span><span class="eb-pts">~40 pts</span></div>
+    <p>4-step cycle with diatomic gas. Identify processes, find p/V/T at each state, fill W/Q/ΔU, compute net work, efficiency, compare to Carnot. Entropy questions removed this year.</p>
+  </div>
+  <div class="exam-block risk-2">
+    <div class="eb-header"><span class="eb-title">Problem: Rotation + torque <span class="badge badge-warn">Risk 2</span></span><span class="eb-pts">~25 pts</span></div>
+    <p>Massive pulley Atwood OR tipping object over a corner bump. Requires FBD, Στ = Iα, constraint a = αR. If tipping: I_corner = (1/3)M(D²+H²).</p>
+  </div>
+  <div class="exam-block risk-2">
+    <div class="eb-header"><span class="eb-title">Problem: Angular momentum <span class="badge badge-warn">Risk 2</span></span><span class="eb-pts">~20 pts</span></div>
+    <p>Colliding rotating objects, or precession direction question. Conservation of L, possibly a direction/right-hand-rule part.</p>
+  </div>
+  <div class="exam-block risk-3">
+    <div class="eb-header"><span class="eb-title">Problem: Rolling + energy <span class="badge badge-good">Risk 3</span></span><span class="eb-pts">~20 pts</span></div>
+    <p>Sphere/cylinder rolling on rough slope then smooth slope. Energy split. Watch: on smooth side ω is constant, only translational KE converts to PE.</p>
+  </div>
+
+  <div class="divider"></div>
+  <h3 style="font-size:14px;font-weight:500;margin-bottom:0.75rem;">Multiple choice predictions (~7–8 questions)</h3>
+  <div class="card">
+    <ol>
+      <li>Belt/wheel speed ratio — larger wheel spins SLOWER <span class="badge badge-danger">documented miss</span></li>
+      <li>Where does ball on hand lose contact — at the TOP (N = 0)</li>
+      <li>Drag/terminal velocity — above terminal: drag > weight, a < g</li>
+      <li>Isothermal process — which quantity is zero (ΔU = 0)</li>
+      <li>Conservation of momentum — when applicable (internal vs external forces) <span class="badge badge-danger">documented miss</span></li>
+      <li>Carnot efficiency — checking inventor's engine claim</li>
+      <li>Physical pendulum vs simple — which has longer period</li>
+      <li>Largest Q for same ΔT — isobaric process (Q = nC_P ΔT, C_P > C_V)</li>
+    </ol>
+  </div>
+</section>
+
+<!-- WEAK SPOTS -->
+<section id="traps">
+  <h2>Documented weak spots</h2>
+  <p class="note" style="margin-bottom:1rem;">These are pulled directly from grading marks on Prelim 1 and Prelim 2. High probability of reappearing.</p>
+
+  <div class="card">
+    <h3>Trap 1 — actual vs. maximum static friction <span class="badge badge-warn">Prelim 2 Q1c</span></h3>
+    <div class="warn">f_s = mg sinθ when block is stationary (from Newton's 2nd law). f_s,max = μ_s·mg·cosθ is the maximum before sliding. These are DIFFERENT unless the block is on the verge of slipping.</div>
+    <p class="note">Rule: if asked for friction on a stationary object, use ΣF = 0 to find it. Only use μ_s·N when the question asks "when does it slip?"</p>
+  </div>
+
+  <div class="card">
+    <h3>Trap 2 — energy when non-conservative forces act <span class="badge badge-warn">Prelim 2 Q5</span></h3>
+    <div class="warn">Block gently lowered by hand → hand does NEGATIVE work → E_final &lt; E_initial. Block dropped from same height → E_final = E_initial. The hand removes energy from the system.</div>
+    <p class="note">Always identify W_other in ΔK + ΔU = W_other. If a hand, motor, or friction is involved, mechanical energy is NOT conserved.</p>
+  </div>
+
+  <div class="card">
+    <h3>Trap 3 — belt/gear wheel ratios <span class="badge badge-warn">Prelim 2 Q11</span></h3>
+    <div class="warn">Belt connects wheels: rim speeds are equal → ω_L·r_L = ω_s·r_s → ω_L = ω_s·(r_s/r_L). LARGER wheel spins SLOWER. If r_L = 2r_s then ω_L = ω_s/2.</div>
+  </div>
+
+  <div class="card">
+    <h3>Trap 4 — momentum conservation: when? <span class="badge badge-warn">Prelim 2 Q13</span></h3>
+    <div class="warn">The F(t) graph between two blocks shows an INTERNAL force. For the two-block SYSTEM, momentum IS conserved because there are no external horizontal forces. You answered "No" — wrong.</div>
+    <p class="note">Internal forces don't change system momentum. Always ask: what is my system? What external forces act on it?</p>
+  </div>
+
+  <div class="card">
+    <h3>Trap 5 — drag force & terminal velocity <span class="badge badge-warn">Prelim 2 Q2</span></h3>
+    <div class="warn">At terminal speed: drag = weight, net force = 0, a = 0. Moving faster than terminal: drag &gt; weight, net force upward, a &lt; g. At point A (v = 0): drag = 0, a = g downward.</div>
+  </div>
+
+  <div class="card">
+    <h3>Trap 6 — 2D vector direction after correct magnitude <span class="badge badge-warn">Prelim 2 Q14f</span></h3>
+    <div class="warn">You correctly calculated the speed but drew the wrong direction. Always extract BOTH p_x and p_y components, determine the quadrant, THEN draw the arrow.</div>
+  </div>
+
+  <div class="card">
+    <h3>Trap 7 — Newton's 2nd parallel component drops gravity <span class="badge badge-warn">Prelim 1 Q13e</span></h3>
+    <div class="warn">For Ana on slope: F_BonA − M_A·g·sinθ = M_A·a → F_BonA = M_A(g sinθ + a). You wrote only M_A·a. Never drop forces from Newton's 2nd.</div>
+  </div>
+
+  <div class="card">
+    <h3>Trap 8 — monatomic vs diatomic C_V <span class="badge badge-warn">Thermo</span></h3>
+    <div class="warn">Monatomic (He, Ar): C_V = 3R/2, C_P = 5R/2, γ = 5/3. Diatomic (N₂, O₂): C_V = 5R/2, C_P = 7R/2, γ = 1.40. Most thermo cycle problems use diatomic.</div>
+  </div>
+</section>
+
+<!-- ROTATION -->
+<section id="rotation">
+  <h2>Rotation</h2>
+
+  <div class="card">
+    <h3>Rotational kinematics</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Angular velocity</div><div class="eq">ω = dθ/dt = v/r</div></div>
+      <div class="fbox"><div class="lbl">Angular acceleration</div><div class="eq">α = dω/dt = a_tan/r</div></div>
+      <div class="fbox"><div class="lbl">Radial acceleration</div><div class="eq">a_rad = ω²r (always inward)</div></div>
+      <div class="fbox"><div class="lbl">Constant α — ω</div><div class="eq">ω² = ω₀² + 2α(θ − θ₀)</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Moment of inertia — all shapes</h3>
+    <div class="grid3">
+      <div class="fbox"><div class="lbl">Slender rod — center</div><div class="eq">I = (1/12)ML²</div></div>
+      <div class="fbox"><div class="lbl">Slender rod — end</div><div class="eq">I = (1/3)ML²</div></div>
+      <div class="fbox"><div class="lbl">Solid cylinder</div><div class="eq">I = (1/2)MR²</div></div>
+      <div class="fbox"><div class="lbl">Solid sphere</div><div class="eq">I = (2/5)MR²</div></div>
+      <div class="fbox"><div class="lbl">Hollow sphere (thin wall)</div><div class="eq">I = (2/3)MR²</div></div>
+      <div class="fbox"><div class="lbl">Thin hoop</div><div class="eq">I = MR²</div></div>
+      <div class="fbox"><div class="lbl">Rectangle about CM</div><div class="eq">I = (1/12)M(a²+b²)</div></div>
+      <div class="fbox"><div class="lbl">Rectangle about corner</div><div class="eq">I = (1/3)M(a²+b²)</div></div>
+    </div>
+    <div class="fbox" style="margin-bottom:0.75rem"><div class="lbl">Parallel axis theorem</div><div class="eq">I_axis = I_CM + Md²   (d = distance from CM to new axis)</div></div>
+    <div class="warn">d is NOT the radius — it is the distance from the CM to the new axis. Draw both axes to be sure.</div>
+  </div>
+
+  <div class="card">
+    <h3>Torque & Newton's 2nd for rotation</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Torque scalar</div><div class="eq">τ = Fr⊥ = F⊥r</div></div>
+      <div class="fbox"><div class="lbl">Newton's 2nd rotation</div><div class="eq">Στ = Iα</div></div>
+      <div class="fbox"><div class="lbl">Torque vector</div><div class="eq">τ⃗ = r⃗ × F⃗  (right-hand rule)</div></div>
+      <div class="fbox"><div class="lbl">Work by torque</div><div class="eq">W = τ·Δθ</div></div>
+    </div>
+    <div class="tip">Lever arm r⊥ = perpendicular distance from the rotation axis to the line of action of the force. Extend the line of action first, then drop a perpendicular to the axis.</div>
+    <div class="tip">Choose your torque axis to eliminate unknowns — put it where two unknown forces intersect.</div>
+  </div>
+
+  <div class="card">
+    <h3>Rolling without slipping</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Rolling constraint</div><div class="eq">v_CM = ωR,  a_CM = αR</div></div>
+      <div class="fbox"><div class="lbl">Total KE</div><div class="eq">K = ½Mv_CM² + ½I_CM·ω²</div></div>
+    </div>
+    <div class="tip">On a SMOOTH (frictionless) slope: no friction torque → ω stays constant. Only translational KE converts to PE. The ball rises to H = v_CM²/(2g).</div>
+    <div class="card" style="margin-bottom:0;background:var(--bg2);border:none;">
+      <h3 style="margin-bottom:0.5rem;font-size:13px;">Height reached on smooth slope (after rolling down rough slope from H₀)</h3>
+      <table>
+        <tr><th>Object</th><th>I_CM</th><th>KE fraction</th><th>H_smooth</th></tr>
+        <tr><td>Solid sphere</td><td class="mono">(2/5)MR²</td><td class="mono">(5/6)Mv²</td><td class="mono">(3/5)H₀</td></tr>
+        <tr><td>Solid cylinder</td><td class="mono">(1/2)MR²</td><td class="mono">(3/4)Mv²</td><td class="mono">(2/3)H₀</td></tr>
+        <tr><td>Hollow sphere</td><td class="mono">(2/3)MR²</td><td class="mono">(5/6)Mv²</td><td class="mono">(3/5)H₀</td></tr>
+        <tr><td>Thin hoop</td><td class="mono">MR²</td><td class="mono">Mv²</td><td class="mono">(1/2)H₀</td></tr>
+      </table>
+    </div>
+    <div class="warn" style="margin-top:0.75rem">Belt-connected wheels: rim speeds equal → ω_L·r_L = ω_s·r_s → LARGER wheel spins SLOWER. If r_L = 2r_s then ω_L = ω_s/2, NOT 2ω_s.</div>
+  </div>
+
+  <div class="card">
+    <h3>Static equilibrium</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Force balance</div><div class="eq">ΣF⃗ = 0</div></div>
+      <div class="fbox"><div class="lbl">Torque balance</div><div class="eq">Στ = 0  (about ANY axis)</div></div>
+    </div>
+    <div class="warn">Actual static friction ≠ μ_s·N. Use Newton's 2nd to find actual friction. Only use f_s,max = μ_s·N when finding the slip condition.</div>
+  </div>
+
+  <div class="card">
+    <h3>Tipping box over a corner bump (old final Problem 13)</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">I about corner (rectangle W×H)</div><div class="eq">I_corner = (1/3)M(W²+H²)</div></div>
+      <div class="fbox"><div class="lbl">CM distance to corner</div><div class="eq">d = (1/2)√(W²+H²)</div></div>
+    </div>
+    <ul>
+      <li>At tipping point: all normal force concentrates at corner, friction at corner</li>
+      <li>Torque balance about corner to find minimum tipping force</li>
+      <li>As box tips, CM traces arc of radius d = (1/2)√(W²+H²)</li>
+      <li>Energy: ΔPE = Mg·Δh_CM → ½I_corner·ω²</li>
+    </ul>
+    <div class="tip">I_corner = I_CM + Md² = (1/12)M(W²+H²) + M(W²+H²)/4 = (1/3)M(W²+H²). The parallel axis theorem gives a clean result here.</div>
+  </div>
+</section>
+
+<!-- ANGULAR MOMENTUM -->
+<section id="angmom">
+  <h2>Angular momentum</h2>
+
+  <div class="card">
+    <h3>Definitions & fundamental relation</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Rigid body</div><div class="eq">L = Iω</div></div>
+      <div class="fbox"><div class="lbl">Particle</div><div class="eq">L = mvr⊥ = r × p⃗</div></div>
+      <div class="fbox"><div class="lbl">Fundamental relation</div><div class="eq">Στ_ext = dL⃗/dt</div></div>
+      <div class="fbox"><div class="lbl">Conserved when</div><div class="eq">Στ_ext = 0</div></div>
+    </div>
+    <div class="warn">When I decreases, ω increases. KE = L²/(2I) — so KE INCREASES when I decreases. The extra energy comes from internal work (skater pulling in arms).</div>
+  </div>
+
+  <div class="card">
+    <h3>Key conservation problems</h3>
+    <ul>
+      <li>Ice skater: (I_B + I₁)ω_i = (I_B + I₂)ω_f</li>
+      <li>Neutron star: ω_f = (R_i/R_f)²·ω_i, KE ratio = (R_i/R_f)²</li>
+      <li>Block on table: T at hole → no torque about hole → L conserved → ω₂ = (r₁/r₂)²·ω₁</li>
+      <li>Colliding disks: L about contact point → ω; p conservation → v_CM = v₀/2; I_two = 3MR²; K_f/K₀ = 5/6</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Atwood machine with massive pulley</h3>
+    <div class="fbox" style="margin-bottom:0.75rem"><div class="lbl">Acceleration</div><div class="eq">a = (m_B − m_A)g / (m_A + m_B + M/2)</div></div>
+    <p class="note">Derived via Στ = dL/dt. M/2 appears because I_pulley = (1/2)MR² and the constraint gives (1/2)M effective mass. If M → 0, recovers massless pulley result.</p>
+  </div>
+
+  <div class="card">
+    <h3>Tipping stick (COOP 7B)</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Angular speed at angle θ</div><div class="eq">ω(θ) = √[3g(1−cosθ)/D]</div></div>
+      <div class="fbox"><div class="lbl">Angular acceleration at θ</div><div class="eq">α(θ) = 3g sinθ / (2D)</div></div>
+      <div class="fbox"><div class="lbl">Tip speed at ground</div><div class="eq">v_end = √(3gD)  >  √(2gD)</div></div>
+      <div class="fbox"><div class="lbl">Tip acceleration at ground</div><div class="eq">a_end = 3g/2  >  g</div></div>
+    </div>
+    <div class="tip">How to get α(θ): use chain rule α = (1/2)d(ω²)/dθ. From ω² = 3g(1−cosθ)/D, differentiate: d(ω²)/dθ = 3g sinθ/D, so α = 3g sinθ/(2D).</div>
+    <p class="note">End moves faster than free-fall because pivot constrains lower end — upper end must travel a longer arc. Energy conserved because pivot does no work (pivot doesn't move).</p>
+  </div>
+
+  <div class="card">
+    <h3>Precession (COOP 9C)</h3>
+    <div class="fbox" style="margin-bottom:0.75rem"><div class="lbl">Precession rate</div><div class="eq">Ω = Mgd / (Iω) = Στ / L_spin</div></div>
+    <ul>
+      <li>Gravity torque: τ⃗ = r⃗(→) × F⃗(↓) = ⊙ out of page about suspension point P</li>
+      <li>dL⃗ = τ⃗·dt — L_spin tip traces a horizontal circle</li>
+      <li>With L_spin → and τ⃗ ⊙: wheel precesses CCW as seen from above</li>
+      <li>Faster spin → larger L → smaller angle swept per dt → SLOWER precession</li>
+      <li>Reversed spin direction → reversed precession direction</li>
+      <li>To stop precession: push UP at far end (B), push DOWN at near end (A)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Sweet spot (COOP 9A)</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">v_CM of stick</div><div class="eq">v_CM = m(v₀ − v_f)/M</div></div>
+      <div class="fbox"><div class="lbl">ω of stick</div><div class="eq">ω = 12mb(v₀+v_f) / (MD²)</div></div>
+      <div class="fbox"><div class="lbl">Sweet spot from CM</div><div class="eq">b = D/6</div></div>
+      <div class="fbox"><div class="lbl">Sweet spot from top end</div><div class="eq">2D/3 from top</div></div>
+    </div>
+    <div class="tip">Sweet spot is independent of v₀, v_f, m, and M — it depends only on stick geometry (D). This is the key testable insight.</div>
+    <p class="note">Condition: lower end velocity = 0 → v_CM = ω·(D/2). Substituting expressions and simplifying gives b = D/6.</p>
+  </div>
+</section>
+
+<!-- SHM -->
+<section id="shm">
+  <h2>Simple harmonic motion</h2>
+
+  <div class="card">
+    <h3>SHM fundamentals</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Position</div><div class="eq">x(t) = A cos(ωt + φ)</div></div>
+      <div class="fbox"><div class="lbl">Velocity</div><div class="eq">v(t) = −ωA sin(ωt + φ)</div></div>
+      <div class="fbox"><div class="lbl">Acceleration</div><div class="eq">a(t) = −ω²A cos(ωt + φ)</div></div>
+      <div class="fbox"><div class="lbl">v as function of x</div><div class="eq">v(x) = ω√(A² − x²)</div></div>
+    </div>
+    <div class="fbox" style="margin-bottom:0.75rem"><div class="lbl">Energy conservation</div><div class="eq">E = ½kA² = ½mv² + ½kx²  at all times</div></div>
+    <div class="tip">Phase relationships: v leads x by ¼ cycle (cosine vs sine). a is 180° out of phase with x — when x is maximum, a is maximum magnitude but opposite sign.</div>
+  </div>
+
+  <div class="card">
+    <h3>Natural frequencies — know these cold</h3>
+    <table>
+      <tr><th>System</th><th>ω₀</th><th>Notes</th></tr>
+      <tr><td>Mass-spring</td><td class="mono">√(k/m)</td><td>T = 2π√(m/k)</td></tr>
+      <tr><td>Simple pendulum</td><td class="mono">√(g/L)</td><td>small angle only</td></tr>
+      <tr><td>Physical pendulum</td><td class="mono">√(Mgd/I)</td><td>d = pivot to CM</td></tr>
+      <tr><td>Swinging disk (pivot at rim)</td><td class="mono">√(2g/3R)</td><td>T = 2π√(3R/2g)</td></tr>
+      <tr><td>Board on rollers</td><td class="mono">√(2μₖg/D)</td><td>mass independent!</td></tr>
+      <tr><td>Coupled oscillators (equal m)</td><td class="mono">√(2k/m)</td><td>k_eff = 2k</td></tr>
+    </table>
+    <div class="warn">Coupled oscillators: f = (1/2π)√(2k/m). NOT (1/2π)√(k/2m) — that's a single mass 2m on spring k, a different system entirely.</div>
+  </div>
+
+  <div class="card">
+    <h3>Springs</h3>
+    <div class="grid3">
+      <div class="fbox"><div class="lbl">Parallel</div><div class="eq">k_eff = k₁ + k₂</div></div>
+      <div class="fbox"><div class="lbl">Series</div><div class="eq">1/k_eff = 1/k₁ + 1/k₂</div></div>
+      <div class="fbox"><div class="lbl">Cut spring in half</div><div class="eq">k_half = 2k (stiffer!)</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Ball on hand — contact condition (COOP 10A)</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Normal force</div><div class="eq">N(t) = m[g − (2πf)²A·sin(2πft)]</div></div>
+      <div class="fbox"><div class="lbl">Critical frequency</div><div class="eq">f_crit = (1/2π)√(g/A)</div></div>
+    </div>
+    <div class="warn">Ball loses contact at the TOP of the motion (y = +A, sin = +1) where N is minimum. Set N = 0: g = (2πf)²A → f_crit. For A = 0.25 m: f ≈ 1.0 Hz, T ≈ 1.0 s.</div>
+  </div>
+
+  <div class="card">
+    <h3>Board on rollers — novel SHO (COOP 10B)</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Normal forces at displacement x</div><div class="eq">N_L = Mg(½+x/D),  N_R = Mg(½−x/D)</div></div>
+      <div class="fbox"><div class="lbl">Net restoring force</div><div class="eq">F_x = −(2μₖMg/D)·x</div></div>
+    </div>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Effective spring constant</div><div class="eq">k_eff = 2μₖMg/D</div></div>
+      <div class="fbox"><div class="lbl">Frequency</div><div class="eq">f = (1/2π)√(2μₖg/D)</div></div>
+    </div>
+    <div class="tip">Mass M cancels because both k_eff and inertia are proportional to M. This is the key physical insight — heavier board has stronger restoring force AND more inertia, exactly balanced.</div>
+  </div>
+
+  <div class="card">
+    <h3>Damped & driven oscillations</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Damped position</div><div class="eq">x(t) = Ae^(−t/τ)cos(ω't + φ)</div></div>
+      <div class="fbox"><div class="lbl">Time constant</div><div class="eq">τ = 2m/b</div></div>
+      <div class="fbox"><div class="lbl">Damped frequency</div><div class="eq">ω' = √(ω₀² − 1/τ²) ≈ ω₀ for large τ</div></div>
+      <div class="fbox"><div class="lbl">Resonance</div><div class="eq">ω_res ≈ ω₀  for large τ</div></div>
+    </div>
+    <div class="tip">To avoid resonance in buildings: make natural frequency far from earthquake frequency AND increase damping to reduce peak amplitude at resonance.</div>
+  </div>
+</section>
+
+<!-- HEAT TRANSFER -->
+<section id="heat">
+  <h2>Heat & heat transfer</h2>
+
+  <div class="card">
+    <h3>Calorimetry</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Sensible heat</div><div class="eq">Q = mcΔT = nCΔT</div></div>
+      <div class="fbox"><div class="lbl">Latent heat</div><div class="eq">Q = ±mL  (+melting/boiling)</div></div>
+    </div>
+    <div class="grid3">
+      <div class="fbox"><div class="lbl">c_water</div><div class="eq">4190 J/kg·K</div></div>
+      <div class="fbox"><div class="lbl">L_fusion (water)</div><div class="eq">334,000 J/kg</div></div>
+      <div class="fbox"><div class="lbl">L_vaporization</div><div class="eq">2,256,000 J/kg</div></div>
+    </div>
+    <div class="warn">Ice stays at 0°C while melting — ALL heat goes into latent heat (breaking bonds), NOT into raising temperature. This is why a cooler stays at 0°C until all ice is gone.</div>
+  </div>
+
+  <div class="card">
+    <h3>Conduction & radiation</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Conduction</div><div class="eq">H = kA(T_H−T_C)/L</div></div>
+      <div class="fbox"><div class="lbl">Thermal resistance</div><div class="eq">R = L/k</div></div>
+      <div class="fbox"><div class="lbl">Radiation (emission)</div><div class="eq">H = eAσT⁴</div></div>
+      <div class="fbox"><div class="lbl">Solar absorption</div><div class="eq">H = eA⊥S₀</div></div>
+    </div>
+    <div class="tip">Temperature profile through a conducting wall is LINEAR in steady state. Heat flow rate H is constant at every cross-section.</div>
+  </div>
+
+  <div class="card">
+    <h3>Earth temperature — radiation balance (COOP 11B)</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Solar power absorbed</div><div class="eq">H_a = S₀·πR²·(1−α)</div></div>
+      <div class="fbox"><div class="lbl">IR power emitted</div><div class="eq">H_r = σ(4πR²)T_E⁴</div></div>
+      <div class="fbox"><div class="lbl">Equilibrium T_E</div><div class="eq">T_E = [S₀(1−α)/4σ]^(1/4)</div></div>
+      <div class="fbox"><div class="lbl">Sun total power</div><div class="eq">P_sun = S₀·4πd² = 3.87×10²⁶ W</div></div>
+    </div>
+    <ul>
+      <li>Normal Earth (α=0.30): T_E = 255 K predicted vs 288 K measured — 33°C greenhouse effect</li>
+      <li>Snowball Earth (α=0.70): T_E = 218 K — bistable system (two stable equilibria)</li>
+      <li>Greenhouse fraction f ≈ 0.77 — atmosphere absorbs 77% of surface IR</li>
+      <li>Atmosphere temperature T_A = T_S(f/2)^(1/4) ≈ 227 K = −46°C</li>
+    </ul>
+  </div>
+</section>
+
+<!-- IDEAL GAS -->
+<section id="idealgas">
+  <h2>Ideal gas & kinetic theory</h2>
+
+  <div class="card">
+    <h3>Ideal gas law & kinetic theory</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Ideal gas law</div><div class="eq">pV = nRT = Nk_BT</div></div>
+      <div class="fbox"><div class="lbl">rms speed</div><div class="eq">v_rms = √(3RT/M) = √(3k_BT/m)</div></div>
+      <div class="fbox"><div class="lbl">Avg translational KE/molecule</div><div class="eq">(3/2)k_BT</div></div>
+      <div class="fbox"><div class="lbl">Total internal energy</div><div class="eq">U = (f/2)nRT</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Degrees of freedom & heat capacities</h3>
+    <table>
+      <tr><th>Gas type</th><th>f</th><th>C_V</th><th>C_P</th><th>γ</th></tr>
+      <tr><td>Monatomic (He, Ne, Ar)</td><td class="mono">3</td><td class="mono">3R/2</td><td class="mono">5R/2</td><td class="mono">5/3 ≈ 1.67</td></tr>
+      <tr><td>Diatomic (N₂, O₂, H₂)</td><td class="mono">5</td><td class="mono">5R/2</td><td class="mono">7R/2</td><td class="mono">7/5 = 1.40</td></tr>
+      <tr><td>Polyatomic (CO₂, H₂O)</td><td class="mono">6</td><td class="mono">3R</td><td class="mono">4R</td><td class="mono">4/3</td></tr>
+    </table>
+    <div class="warn">C_P = C_V + R always. ΔU = nC_V·ΔT for ALL ideal gas processes regardless of path.</div>
+  </div>
+</section>
+
+<!-- FOUR PROCESSES -->
+<section id="processes">
+  <h2>Four thermodynamic processes</h2>
+
+  <div class="card">
+    <h3>Process table — know this cold</h3>
+    <table>
+      <tr><th>Process</th><th>W (by gas)</th><th>Q (to gas)</th><th>ΔU</th></tr>
+      <tr><td><strong>Isochoric</strong> (const V)</td><td class="mono">0</td><td class="mono">nC_V ΔT</td><td class="mono">nC_V ΔT</td></tr>
+      <tr><td><strong>Isobaric</strong> (const p)</td><td class="mono">nRΔT = pΔV</td><td class="mono">nC_P ΔT</td><td class="mono">nC_V ΔT</td></tr>
+      <tr><td><strong>Isothermal</strong> (const T)</td><td class="mono">nRT ln(V₂/V₁)</td><td class="mono">nRT ln(V₂/V₁)</td><td class="mono">0</td></tr>
+      <tr><td><strong>Adiabatic</strong> (Q=0)</td><td class="mono">−nC_V ΔT</td><td class="mono">0</td><td class="mono">nC_V ΔT</td></tr>
+    </table>
+    <div class="warn">ΔU = 0 for ISOTHERMAL only (ΔT = 0 for ideal gas). NOT for isobaric. ΔU = nC_V·ΔT for every process.</div>
+    <div class="warn">Isothermal W = nRT·ln(V₂/V₁), NOT nRΔT (ΔT = 0, so nRΔT would give zero).</div>
+  </div>
+
+  <div class="card">
+    <h3>Adiabatic relations</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">Pressure-volume</div><div class="eq">pV^γ = constant</div></div>
+      <div class="fbox"><div class="lbl">Temperature-volume</div><div class="eq">TV^(γ−1) = constant</div></div>
+      <div class="fbox"><div class="lbl">Find T₂ from T₁</div><div class="eq">T₂ = T₁·(V₁/V₂)^(γ−1)</div></div>
+      <div class="fbox"><div class="lbl">Find p₂ from p₁</div><div class="eq">p₂ = p₁·(V₁/V₂)^γ</div></div>
+    </div>
+    <div class="tip">Auto engine: V₂ = 0.09V₁, γ = 1.40 → T₂ = 293·(11.1)^0.40 = 768 K. Verify with pV = nRT at each state.</div>
+  </div>
+
+  <div class="card">
+    <h3>Multi-step cycle strategy</h3>
+    <div class="step"><div class="step-num">1</div><div class="step-body">Draw pV diagram, label all states (1, 2, 3 …)</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body">Identify each process: isochoric (V const), isobaric (p const), isothermal (T const), adiabatic (Q=0)</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body">Use pV = nRT to find T, p, V at each state you don't know</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body">Apply the process table row for W, Q, ΔU at each step</div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body">Verify ΔU = Q − W at each step as a self-check</div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body">W_net = sum of all W. Q_H = sum of positive Q only. Q_C = sum of negative Q only.</div></div>
+    <div class="step"><div class="step-num">7</div><div class="step-body">e = W_net/Q_H. Compare to e_Carnot = 1 − T_C/T_H (Kelvin!)</div></div>
+  </div>
+
+  <div class="card">
+    <h3>Free expansion & irreversibility (HW 12)</h3>
+    <ul>
+      <li>Gas expands freely into vacuum: W = 0, Q = 0 → ΔU = 0 → T unchanged</li>
+      <li>Then isothermal compression back: W_on_gas = nRT·ln(2), heat flows OUT = nRT·ln(2)</li>
+      <li>Net: surroundings did work and received heat — NOT returned to original state</li>
+      <li>This is irreversible — entropy increased during free expansion</li>
+      <li>2nd Law: cannot return BOTH gas and surroundings to original states simultaneously</li>
+    </ul>
+    <div class="tip">If gas had expanded isothermally against a piston instead: W_by_gas = nRT·ln(2) extracted usefully, process fully reversible — everything can be undone.</div>
+  </div>
+</section>
+
+<!-- ENGINES -->
+<section id="engines">
+  <h2>Heat engines & second law</h2>
+
+  <div class="card">
+    <h3>Heat engine fundamentals</h3>
+    <div class="grid2">
+      <div class="fbox"><div class="lbl">First law for engine</div><div class="eq">Q_H = W + |Q_C|</div></div>
+      <div class="fbox"><div class="lbl">Efficiency</div><div class="eq">e = W/Q_H = 1 − |Q_C|/Q_H</div></div>
+      <div class="fbox"><div class="lbl">Carnot (maximum) efficiency</div><div class="eq">e_Carnot = 1 − T_C/T_H</div></div>
+      <div class="fbox"><div class="lbl">Refrigerator COP</div><div class="eq">K = |Q_C|/W ≤ T_C/(T_H−T_C)</div></div>
+    </div>
+    <div class="warn">ALWAYS convert to Kelvin: T_C = 27°C = 300 K. No engine can exceed Carnot efficiency.</div>
+  </div>
+
+  <div class="card">
+    <h3>Checking inventor's engine</h3>
+    <div class="step"><div class="step-num">1</div><div class="step-body"><strong>1st Law check:</strong> Does Q_H = W + |Q_C|? Convert all units (1 cal = 4.186 J, 1 kWh = 3.6×10⁶ J) then check energy balance.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><strong>2nd Law check:</strong> Is e = W/Q_H ≤ e_Carnot = 1 − T_C/T_H? If e > e_Carnot → impossible.</div></div>
+    <div class="good">HW 12 example: Q_H = 3.0×10⁶ J, W = 1.26×10⁶ J, Q_C = 1.34×10⁶ J. Energy check: 1.26 + 1.34 = 2.60 ≠ 3.0 → violates 1st Law. Also e = 42% > e_Carnot = 33% → violates 2nd Law. Do not invest.</div>
+  </div>
+
+  <div class="card">
+    <h3>Stirling cycle</h3>
+    <table>
+      <tr><th>Step</th><th>Process</th><th>W</th><th>Q</th></tr>
+      <tr><td>1→2</td><td>Isothermal expansion at T_H</td><td class="mono">nRT_H ln(r)</td><td class="mono">nRT_H ln(r)</td></tr>
+      <tr><td>2→3</td><td>Isochoric cooling</td><td class="mono">0</td><td class="mono">nC_V(T_C−T_H)</td></tr>
+      <tr><td>3→4</td><td>Isothermal compression at T_C</td><td class="mono">−nRT_C ln(r)</td><td class="mono">−nRT_C ln(r)</td></tr>
+      <tr><td>4→1</td><td>Isochoric heating</td><td class="mono">0</td><td class="mono">nC_V(T_H−T_C)</td></tr>
+    </table>
+    <div class="tip">With perfect regeneration: heat from 2→3 recycled into 4→1 → Q_H = nRT_H·ln(r) only → e = 1 − T_C/T_H = e_Carnot.</div>
+  </div>
+</section>
+
+<!-- CO-OP ANSWERS -->
+<section id="coops">
+  <h2>All 9 co-op answers</h2>
+
+  <div class="card">
+    <h3>COOP 7B — Tipping stick</h3>
+    <ul>
+      <li>U_g(θ) = Mg(D/2)cosθ, zero when lying flat (θ = 90°)</li>
+      <li>KE = (1/6)MD²ω² — same by pure rotation and CM+rotation methods</li>
+      <li>ω(θ) = √[3g(1−cosθ)/D]</li>
+      <li>α(θ) = 3g sinθ/(2D) — derived via chain rule α = (1/2)d(ω²)/dθ</li>
+      <li>v_end at ground = √(3gD) &gt; √(2gD) (free-fall speed)</li>
+      <li>a_end at ground = 3g/2 &gt; g — pivot constrains lower end</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>COOP 8A — Whirlygig</h3>
+    <ul>
+      <li>Only string tension T produces net torque (weights cancel by symmetry — symmetric geometry required)</li>
+      <li>Net torque: Στ = TR (clockwise)</li>
+      <li>I = (1/2)MR² + (1/3)m_r·r² + 2m_s·r²</li>
+      <li>Constraint: a = αR (string inextensible on cylinder of radius R)</li>
+      <li>Block acceleration: a = mg/(m + I/R²)</li>
+      <li>T &lt; mg because block accelerates downward</li>
+      <li>m → 0: a → 0 (heavy whirlygig barely moves). m → ∞: a → g (free fall).</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>COOP 8C — Monkey ladder</h3>
+    <ul>
+      <li>N_G = w + w_L (constant — doesn't change as monkey climbs)</li>
+      <li>N_W = cosθ·(w_L·L/2 + w·s) / (L sinθ) — increases as monkey climbs</li>
+      <li>Friction f_s = N_W (from horizontal equilibrium)</li>
+      <li>Max fraction monkey can climb: s/L = μ_s(w+w_L)tanθ/w − w_L/(2w)</li>
+      <li>Numerical (20 lb monkey, 16 lb ladder, 50°, μ_s = 0.50): s/L ≈ 0.67</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>COOP 9A — Sweet spot</h3>
+    <ul>
+      <li>Conserved: linear momentum, angular momentum about stick CM. KE is unknown (may be inelastic).</li>
+      <li>v_CM = m(v₀−v_f)/M — independent of impact parameter b</li>
+      <li>ω = 12mb(v₀+v_f)/(MD²)</li>
+      <li>Sweet spot condition: lower end velocity = 0 → v_CM = ω(D/2)</li>
+      <li>Result: b = D/6 from CM = 2D/3 from top end</li>
+      <li>Independent of all speeds and masses — depends only on geometry D</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>COOP 9C — Bike wheel precession</h3>
+    <ul>
+      <li>Gravity torque about P: τ⃗ = r⃗(→) × F⃗(↓) = ⊙ (out of page)</li>
+      <li>dL⃗ = τ⃗·dt → tip of L_spin sweeps CCW as seen from above</li>
+      <li>Precession rate: Ω = MgD/(Iω)</li>
+      <li>Faster spin → slower precession. Reversed spin → reversed precession.</li>
+      <li>Stop precession: push UP at B (right end), push DOWN at A (left end)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>COOP 10A — Ball on hand</h3>
+    <ul>
+      <li>v_y(t) = 2πfA cos(2πft), v_max = 2πfA</li>
+      <li>a_y(t) = −(2πf)²A sin(2πft), a_max = (2πf)²A</li>
+      <li>N(t) = m[g − (2πf)²A sin(2πft)]</li>
+      <li>Contact lost at TOP of motion (y = +A, sin = +1) — N is minimum there</li>
+      <li>Critical: N = 0 → f_crit = (1/2π)√(g/A). For A = 0.25 m: f ≈ 1.0 Hz</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>COOP 10B — Board on rollers</h3>
+    <ul>
+      <li>Normal forces from torque balance: N_L = Mg(½+x/D), N_R = Mg(½−x/D)</li>
+      <li>Net force: F_x = −(2μ_kMg/D)·x → linear restoring force</li>
+      <li>k_eff = 2μ_kMg/D, ω₀ = √(2μ_kg/D)</li>
+      <li>Frequency independent of mass M (M cancels)</li>
+      <li>Decrease frequency: increase D (wider roller spacing) or decrease μ_k</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>COOP 11A — Styrofoam cooler</h3>
+    <ul>
+      <li>Ice melts at constant 0°C (latent heat). Total capacity before T rises: Q = mL_f.</li>
+      <li>One wall heat flow: H = kD²ΔT/w. Six faces total: H_total = 6kD²ΔT/w</li>
+      <li>Required thickness for time t: w = 6kD²ΔT·t/(mL_f)</li>
+      <li>Cases 1 & 2 (ice at wall): highest heat flow, uniform 0°C throughout</li>
+      <li>Case 3 (ice center, soda surrounding): lowest heat flow to ice → ice lasts longest</li>
+      <li>Larger cooler lasts longer: volume ∝ D³ but area ∝ D², so t ∝ D</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>COOP 11B — Solar radiation & greenhouse</h3>
+    <ul>
+      <li>P_sun = S₀·4πd² = 3.87×10²⁶ W. T_sun = [P/(4πR_S²σ)]^(1/4) ≈ 5800 K</li>
+      <li>Earth equilibrium: T_E = [S₀(1−α)/4σ]^(1/4) = 255 K (predicted) vs 288 K (actual)</li>
+      <li>Difference = 33°C greenhouse effect</li>
+      <li>Snowball Earth (α=0.70): T_E = 218 K — two stable equilibria with same solar input</li>
+      <li>Greenhouse fraction f ≈ 0.77. Atmosphere T_A = T_S(f/2)^(1/4) ≈ 227 K = −46°C</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CYCLE WORKED EXAMPLE -->
+<section id="cycle-drill">
+  <h2>Thermodynamic cycle — full worked example</h2>
+  <p class="note" style="margin-bottom:1rem;">HW 11 oxygen cycle. Diatomic gas (n = 0.250 mol), C_V = 5R/2, C_P = 7R/2.</p>
+
+  <div class="card">
+    <h3>State 1: p₁ = 2.40×10⁵ Pa, T₁ = 355 K</h3>
+    <p class="note">Process 1→2: isobaric expansion to V₂ = 2V₁</p>
+    <ul>
+      <li>T₂ = T₁·(V₂/V₁) = 2 × 355 = <strong>710 K</strong></li>
+      <li>W₁₂ = nRΔT = (0.250)(8.31)(355) = <strong>738 J</strong></li>
+      <li>Q₁₂ = nC_P·ΔT = (0.250)(7/2)(8.31)(355) = <strong>2580 J</strong></li>
+      <li>ΔU₁₂ = Q − W = 2580 − 738 = <strong>1840 J</strong> ✓ (= nC_V·ΔT)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Process 2→3: isothermal compression back to V₁ at T = 710 K</h3>
+    <ul>
+      <li>ΔU₂₃ = <strong>0</strong> (isothermal, ideal gas)</li>
+      <li>W₂₃ = nRT·ln(V₁/2V₁) = −nRT·ln(2) = −(0.250)(8.31)(710)(0.693) = <strong>−1020 J</strong></li>
+      <li>Q₂₃ = W₂₃ = <strong>−1020 J</strong> (heat flows out)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Process 3→1: isochoric cooling back to T₁ = 355 K</h3>
+    <ul>
+      <li>W₃₁ = <strong>0</strong> (constant volume)</li>
+      <li>Q₃₁ = nC_V·ΔT = (0.250)(5/2)(8.31)(355−710) = <strong>−1840 J</strong></li>
+      <li>ΔU₃₁ = Q − W = −1840 − 0 = <strong>−1840 J</strong></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Cycle summary</h3>
+    <table>
+      <tr><th>Step</th><th>W (J)</th><th>Q (J)</th><th>ΔU (J)</th></tr>
+      <tr><td>1→2 isobaric</td><td class="mono">+738</td><td class="mono">+2580</td><td class="mono">+1840</td></tr>
+      <tr><td>2→3 isothermal</td><td class="mono">−1020</td><td class="mono">−1020</td><td class="mono">0</td></tr>
+      <tr><td>3→1 isochoric</td><td class="mono">0</td><td class="mono">−1840</td><td class="mono">−1840</td></tr>
+      <tr><td><strong>Cycle total</strong></td><td class="mono"><strong>−282</strong></td><td class="mono"><strong>−280</strong></td><td class="mono"><strong>≈ 0</strong></td></tr>
+    </table>
+    <div class="tip">ΔU_cycle ≈ 0 as expected (state function returns to start). W_net = −282 J means net work done ON the gas (this cycle runs as a refrigerator, not an engine). Q_H = 2580 J. If run as engine: e = 282/2580 = 10.9% vs e_Carnot = 1 − 355/710 = 50%.</div>
+  </div>
+</section>
+
+<!-- SHM DERIVATION TEMPLATE -->
+<section id="shm-template">
+  <h2>SHM derivation template</h2>
+  <p class="note" style="margin-bottom:1rem;">Use this for ANY novel oscillator on the exam. The physical setup will change — the method doesn't.</p>
+
+  <div class="card">
+    <h3>Universal method</h3>
+    <div class="step"><div class="step-num">1</div><div class="step-body">Draw extended FBD at equilibrium (x = 0). Verify ΣF = 0 — this confirms equilibrium.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body">Displace by small x (or angle θ). Redraw FBD showing how forces change with displacement.</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body">Express all forces in terms of x. Use torque balance if normal forces change (like board on rollers).</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body">Apply Newton's 2nd: Ma = ΣF(x). Show this takes the form Ma = −C·x where C &gt; 0.</div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body">Identify: ω₀² = C/M. Write ω₀, f = ω₀/(2π), T = 2π/ω₀.</div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body">Check: does mass cancel? Is ω₀ in rad/s? Do limiting cases make sense (C → 0 gives T → ∞ etc.)?</div></div>
+
+    <div class="divider"></div>
+    <h3 style="font-size:13px;font-weight:500;margin-bottom:0.75rem;">For physical pendulum (and any rotational SHO)</h3>
+    <div class="step"><div class="step-num">1</div><div class="step-body">Net torque at small angle: τ_net = −Mgd·sinθ ≈ −Mgd·θ (small angle approximation)</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body">Newton's 2nd for rotation: Iα = −Mgd·θ</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body">Rearrange: d²θ/dt² = −(Mgd/I)·θ → ω₀² = Mgd/I</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body">ω₀ = √(Mgd/I), T = 2π√(I/Mgd). Equivalent simple pendulum length: L_eq = I/(Md).</div></div>
+  </div>
+</section>
+
+<!-- FR CHECKLIST -->
+<section id="checklist">
+  <h2>Free response checklist</h2>
+
+  <div class="card">
+    <h3>For any mechanics problem</h3>
+    <div class="step"><div class="step-num">1</div><div class="step-body">Draw FBD — extended (at correct location) if rotation is involved</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body">Choose coordinate system — label positive direction explicitly</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body">List ALL forces — don't drop gravity, normal forces, or tension</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body">Write ΣF = ma (translation) AND Στ = Iα (rotation) separately</div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body">Write constraint equations (rolling: a = αR, string: same speed both ends)</div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body">Identify conserved quantities and state WHY they are conserved</div></div>
+    <div class="step"><div class="step-num">7</div><div class="step-body">Solve symbolically — plug in numbers at the very end</div></div>
+    <div class="step"><div class="step-num">8</div><div class="step-body">Check: units, signs, limiting cases, physical reasonableness</div></div>
+  </div>
+
+  <div class="card">
+    <h3>For thermodynamics cycle problems</h3>
+    <div class="step"><div class="step-num">1</div><div class="step-body">Identify gas type → get C_V, C_P, γ</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body">Draw pV diagram, label all states</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body">Identify each process (const V, p, T, or adiabatic)</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body">Use pV = nRT to find all unknown state variables</div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body">Apply process table: W, Q, ΔU for each step</div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body">Verify ΔU = Q − W at each step</div></div>
+    <div class="step"><div class="step-num">7</div><div class="step-body">Sum for cycle: W_net, Q_H (positive Q only), e = W_net/Q_H</div></div>
+    <div class="step"><div class="step-num">8</div><div class="step-body">Compare to e_Carnot = 1 − T_C/T_H (Kelvin!)</div></div>
+  </div>
+
+  <div class="card">
+    <h3>Exam day reminders</h3>
+    <div class="good">Survey the whole exam first — do easy problems first, come back to hard parts.</div>
+    <div class="good">Show all work — partial credit is given on every free response part.</div>
+    <div class="good">Label everything — forces on FBD, axes, positive directions, all quantities.</div>
+    <div class="warn">Units and sig figs are required for full credit on numerical answers.</div>
+    <div class="danger">Most likely careless errors: dropping gravity term in Newton's 2nd parallel component · using monatomic C_V for a diatomic gas · belt wheel ratio inversion · drawing wrong direction after correct magnitude · treating max static friction as actual static friction</div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+  const links = document.querySelectorAll('nav a');
+  const sections = document.querySelectorAll('section');
+  function setActive() {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    links.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', setActive, {passive: true});
+  setActive();
+</script>
+</body>
+</html>
