@@ -1,15 +1,32 @@
-export default function SectionHeading({ eyebrow, title, description }) {
+import { motion } from "motion/react";
+import { fadeUp, staggerContainer, inView } from "../utils/motion";
+
+export default function SectionHeading({ eyebrow, title, description, align = "left" }) {
   return (
-    <div className="mb-10 max-w-3xl">
-      <p className="text-sm uppercase tracking-[0.25em] text-white/45">{eyebrow}</p>
-      <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white md:text-5xl">
-        {title}
-      </h2>
-      {description ? (
-        <p className="mt-4 text-base leading-7 text-white/65 md:text-lg">
-          {description}
-        </p>
+    <motion.div
+      variants={staggerContainer}
+      {...inView}
+      className={`mb-12 max-w-2xl ${align === "center" ? "mx-auto text-center" : ""}`}
+    >
+      {eyebrow ? (
+        <motion.p
+          variants={fadeUp}
+          className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-orange"
+        >
+          {eyebrow}
+        </motion.p>
       ) : null}
-    </div>
+      <motion.h2
+        variants={fadeUp}
+        className="mt-3 text-[clamp(2.25rem,5vw,4rem)] font-[1000] leading-[0.9] tracking-[-0.03em] text-ink"
+      >
+        {title}
+      </motion.h2>
+      {description ? (
+        <motion.p variants={fadeUp} className="mt-4 text-lg leading-relaxed text-muted">
+          {description}
+        </motion.p>
+      ) : null}
+    </motion.div>
   );
 }

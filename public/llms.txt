@@ -1,0 +1,32 @@
+# Michael Tommaso — Systems Atlas
+
+> Portfolio of Michael Tommaso, who builds AI systems and operational software.
+> The site is a "Fluid Systems Atlas": a living map where each section is a route
+> from idea to working artifact.
+
+## About
+
+Michael builds useful AI systems and operational software, and prototypes across
+engineering, machine learning, and product. Core focus areas:
+
+- Agent orchestration and AI runtimes
+- Multi-tenant operational SaaS
+- Creative, design-to-deploy software pipelines
+
+## Flagship systems
+
+- [MimirAgent](https://github.com/michaeljtommaso): Hermes-style agent orchestration runtime — tools, persistent memory, worker fan-out, browser control, code execution, voice, and schedules.
+- [McCallos](https://github.com/michaeljtommaso): Multi-tenant property operations platform — dashboards, role permissions, mobile field capture, and workflow automation.
+- [Website Foundry](https://github.com/michaeljtommaso): Design-to-deploy pipeline — precedent scouting, sketch generation, asset synthesis, agentic build, and browser verification.
+
+## Selected builds
+
+- Machine Learning Stock Trading Bot — Python ML trading system with rolling training windows.
+- Lightweight Aquatic Vehicle — underwater transport device prototyped with 3D modeling and custom circuitry.
+- Early interactive builds — Punnett Square Generator, Chi-Squared Calculator, Metronome, and more.
+
+## Links
+
+- GitHub: https://github.com/michaeljtommaso
+- LinkedIn: https://www.linkedin.com/in/michaeltommaso
+- Résumé: https://michaeljtommaso.github.io/MichaelTommasoPortfolioWebsite/resume.pdf
