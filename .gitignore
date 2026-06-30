@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Exploration / scratch artifacts
+.playwright-mcp/
+awwwards-grid.jpeg
+beat*.jpeg

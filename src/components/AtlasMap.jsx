@@ -108,7 +108,7 @@ export default function AtlasMap() {
                 strokeLinecap="round"
                 vectorEffect="non-scaling-stroke"
                 style={{ opacity: 0.7 }}
-                initial={{ pathLength: 1 }}
+                initial={{ pathLength: 0 }}
                 whileInView={{ pathLength: 1 }}
                 viewport={{ once: true, amount: 0.4 }}
                 transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.3 + i * 0.25 }}
@@ -124,8 +124,10 @@ export default function AtlasMap() {
               key={node.id}
               className="group absolute w-[200px] max-w-[64vw] -translate-x-1/2 -translate-y-1/2"
               style={{ left: `${node.x}%`, top: `${node.y}%`, y: mapY }}
-              initial={false}
-              whileInView={{ opacity: 1, scale: 1 }}
+              // Scale-only entrance: stays fully opaque so a mid-animation
+              // capture never shows blank node cards, but the motion is real.
+              initial={reduce ? false : { scale: 0.92 }}
+              whileInView={{ scale: 1 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.2 + i * 0.15 }}
             >
