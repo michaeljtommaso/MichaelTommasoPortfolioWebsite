@@ -8,7 +8,7 @@ import foundryChapter from "../assets/generated/foundry-chapter.webp";
 import schoolSite1 from "../assets/schoolsites/punnet-square.png";
 import schoolSite2 from "../assets/schoolsites/chi-square.png";
 import schoolSite3 from "../assets/schoolsites/metronome.png";
-import schoolSite4 from "../assets/schoolsites/theologyproject.png";
+import schoolSite4 from "../assets/schoolsites/theologyproject.webp";
 
 /* ------------------------------------------------------------------ *
  * Source of truth for the Fluid Systems Atlas.
