@@ -15,7 +15,8 @@ export default function BuildCard({ build }) {
         <img
           src={build.image}
           alt={build.title}
-          loading="eager"
+          loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <span

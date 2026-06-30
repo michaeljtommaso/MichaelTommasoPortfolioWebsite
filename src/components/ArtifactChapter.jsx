@@ -134,7 +134,7 @@ export default function ArtifactChapter({ system, flip }) {
           href={system.link}
           target="_blank"
           rel="noreferrer"
-          className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-ink transition-colors hover:text-blue"
+          className="group mt-7 inline-flex items-center gap-2 text-sm font-bold text-ink transition-colors hover:text-blue"
         >
           Explore the route
           <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>

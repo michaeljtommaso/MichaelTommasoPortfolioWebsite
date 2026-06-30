@@ -47,7 +47,8 @@ export default function SelectedBuilds() {
                   <img
                     src={site.image}
                     alt={site.title}
-                    loading="eager"
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
