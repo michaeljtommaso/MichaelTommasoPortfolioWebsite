@@ -1,5 +1,5 @@
-import waterscooter from "../assets/waterscooter.png";
-import stockbot from "../assets/stockbot.png";
+import waterscooter from "../assets/waterscooter.webp";
+import stockbot from "../assets/stockbot.webp";
 
 import mimiragentChapter from "../assets/generated/mimiragent-chapter.webp";
 import mccallosChapter from "../assets/generated/mccallos-chapter.webp";
