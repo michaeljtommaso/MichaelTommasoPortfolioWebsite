@@ -1,9 +1,19 @@
-import { motion } from "motion/react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import SectionHeading from "../components/SectionHeading";
 import { processSteps } from "../data/portfolioData";
 import { staggerContainer, fadeUp, inView } from "../utils/motion";
+import processStrip from "../assets/generated/process-strip.webp";
 
 export default function Process() {
+  const stripRef = useRef(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: stripRef,
+    offset: ["start end", "end start"],
+  });
+  const stripX = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["-4%", "4%"]);
+
   return (
     <section id="process" className="px-4 py-20 md:py-28">
       <div className="mx-auto max-w-6xl">
@@ -12,6 +22,25 @@ export default function Process() {
           title="Research → Sketch → Build → Verify → Ship."
           description="A repeatable loop with rules: scout precedent, draft fast, build with agents, verify in a real browser, then ship and learn."
         />
+
+        {/* Cinematic workflow strip — Research → Sketch → Build → Verify → Ship */}
+        <div
+          ref={stripRef}
+          className="relative mb-10 overflow-hidden rounded-[28px] border border-ink/10 shadow-[0_22px_60px_rgba(16,32,27,0.12)]"
+        >
+          <div className="aspect-[21/9] max-h-56 w-full sm:max-h-64">
+            <motion.img
+              src={processStrip}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full scale-110 object-cover"
+              style={{ x: stripX }}
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-paper/40 via-transparent to-paper/40" />
+        </div>
 
         <div className="relative">
           {/* Connecting route, drawn with scroll */}

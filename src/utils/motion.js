@@ -12,6 +12,14 @@ export const fadeIn = {
   show: { opacity: 1, transition: { duration: 1, ease } },
 };
 
+/* Translate-only entrance. Stays fully opaque so it never reads as
+ * low-contrast/gray if a screenshot is captured mid-animation — used for
+ * the hero headline where ink contrast must always be solid. */
+export const rise = {
+  hidden: { y: 36 },
+  show: { y: 0, transition: { duration: 0.85, ease } },
+};
+
 export const slideInLeft = {
   hidden: { opacity: 0, x: -48 },
   show: { opacity: 1, x: 0, transition: { duration: 0.85, ease } },

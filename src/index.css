@@ -90,6 +90,27 @@ img {
   mask-image: radial-gradient(circle at 50% 45%, black, transparent 88%);
 }
 
+/* Faint route/paper texture for section depth & continuity.
+ * Kept very low opacity and masked at the edges so text contrast is unaffected. */
+.route-texture {
+  position: relative;
+  isolation: isolate;
+}
+.route-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("./assets/generated/route-texture.webp");
+  background-size: 60% auto;
+  background-position: center;
+  background-repeat: repeat;
+  -webkit-mask-image: linear-gradient(180deg, transparent, black 18%, black 82%, transparent);
+  mask-image: linear-gradient(180deg, transparent, black 18%, black 82%, transparent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

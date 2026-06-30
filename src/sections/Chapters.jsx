@@ -4,7 +4,7 @@ import { systems } from "../data/portfolioData";
 
 export default function Chapters() {
   return (
-    <section id="chapters" className="px-4 py-20 md:py-28">
+    <section id="chapters" className="route-texture px-4 py-20 md:py-28">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           eyebrow="Cinematic artifact chapters"

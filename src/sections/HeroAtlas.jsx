@@ -1,15 +1,15 @@
 import { motion } from "motion/react";
 import AtlasMap from "../components/AtlasMap";
-import { fadeUp, staggerContainer } from "../utils/motion";
+import { fadeUp, rise, staggerContainer } from "../utils/motion";
 import { socials } from "../data/portfolioData";
 
 export default function HeroAtlas() {
   return (
-    <section id="atlas" className="relative px-4 pt-28 pb-12 md:pt-36 md:pb-20">
+    <section id="atlas" className="relative px-4 pt-24 pb-10 md:pt-36 md:pb-20">
       <div className="mx-auto max-w-6xl">
         <motion.div
           variants={staggerContainer}
-          initial="hidden"
+          initial={false}
           animate="show"
           className="max-w-3xl"
         >
@@ -21,7 +21,7 @@ export default function HeroAtlas() {
           </motion.p>
 
           <motion.h1
-            variants={fadeUp}
+            variants={rise}
             className="mt-5 text-[clamp(3rem,8vw,6.5rem)] font-[1000] leading-[0.86] tracking-[-0.04em] text-ink"
           >
             A living map of <br className="hidden sm:block" />
@@ -55,7 +55,7 @@ export default function HeroAtlas() {
           </motion.div>
         </motion.div>
 
-        <div className="mt-10 md:mt-14">
+        <div className="mt-8 md:mt-14">
           <AtlasMap />
         </div>
       </div>

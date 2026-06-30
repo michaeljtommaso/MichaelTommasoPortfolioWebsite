@@ -1,6 +1,10 @@
 import waterscooter from "../assets/waterscooter.png";
 import stockbot from "../assets/stockbot.png";
 
+import mimiragentChapter from "../assets/generated/mimiragent-chapter.webp";
+import mccallosChapter from "../assets/generated/mccallos-chapter.webp";
+import foundryChapter from "../assets/generated/foundry-chapter.webp";
+
 import schoolSite1 from "../assets/schoolsites/punnet-square.png";
 import schoolSite2 from "../assets/schoolsites/chi-square.png";
 import schoolSite3 from "../assets/schoolsites/metronome.png";
@@ -78,6 +82,8 @@ export const systems = [
     capabilities: ["Tool use", "Persistent memory", "Worker fan-out", "Browser control", "Code execution", "Voice & schedules"],
     link: "https://github.com/michaeljtommaso",
     art: "linear-gradient(135deg, #10201b 0%, rgba(42,127,255,0.92) 58%, rgba(60,174,114,0.9) 100%)",
+    image: mimiragentChapter,
+    imagePosition: "30% center",
     pattern: "grid",
   },
   {
@@ -91,6 +97,8 @@ export const systems = [
     capabilities: ["Multi-tenant", "Role permissions", "Operational dashboards", "Mobile capture", "Workflow automation"],
     link: "https://github.com/michaeljtommaso",
     art: "linear-gradient(135deg, #10201b 0%, rgba(60,174,114,0.9) 55%, rgba(230,181,58,0.85) 100%)",
+    image: mccallosChapter,
+    imagePosition: "center",
     pattern: "panels",
   },
   {
@@ -104,6 +112,8 @@ export const systems = [
     capabilities: ["Precedent scouting", "Sketch generation", "Asset synthesis", "Agentic build", "Browser verification"],
     link: "https://github.com/michaeljtommaso",
     art: "linear-gradient(135deg, #10201b 0%, rgba(255,91,46,0.9) 55%, rgba(230,181,58,0.85) 100%)",
+    image: foundryChapter,
+    imagePosition: "70% center",
     pattern: "routes",
   },
 ];

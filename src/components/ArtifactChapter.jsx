@@ -54,12 +54,32 @@ export default function ArtifactChapter({ system, flip }) {
         aria-label={`${system.name} — ${system.kicker}`}
         className="group relative block aspect-[4/3] overflow-hidden rounded-[32px] border border-ink/10 shadow-[0_28px_90px_rgba(16,32,27,0.16)]"
       >
-        <motion.div
-          className="absolute inset-0"
-          style={{ background: system.art, scale: artScale, y: artY }}
+        {/* Gradient base — fallback when no image, and a warm tint beneath it */}
+        <div className="absolute inset-0" style={{ background: system.art }} aria-hidden="true" />
+        {system.image && (
+          <motion.img
+            src={system.image}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: system.imagePosition || "center", scale: artScale, y: artY }}
+          />
+        )}
+        {!system.image && (
+          <motion.div
+            className="absolute inset-0"
+            style={{ background: system.art, scale: artScale, y: artY }}
+            aria-hidden="true"
+          />
+        )}
+        <div
+          className="absolute inset-0 mix-blend-soft-light opacity-40"
+          style={patternStyle(system.pattern)}
+          aria-hidden="true"
         />
-        <div className="absolute inset-0" style={patternStyle(system.pattern)} aria-hidden="true" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
         <div className="absolute left-6 bottom-6 right-6">
           <span className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/80">
             Chapter {system.index}

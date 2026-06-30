@@ -8,6 +8,7 @@ import {
   useMotionValue,
 } from "motion/react";
 import { atlasNodes, atlasRoutes, accentHex } from "../data/portfolioData";
+import heroAtlas from "../assets/generated/hero-atlas.webp";
 
 const nodeById = Object.fromEntries(atlasNodes.map((n) => [n.id, n]));
 
@@ -62,6 +63,23 @@ export default function AtlasMap() {
       onPointerLeave={resetPointer}
       className="relative w-full overflow-hidden rounded-[36px] border border-ink/10 bg-paper/70 shadow-[0_38px_110px_rgba(16,32,27,0.14)]"
     >
+      {/* Cinematic image substrate — sits beneath grid, routes, and nodes */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+        style={{ x: sx, y: sy }}
+        aria-hidden="true"
+      >
+        <img
+          src={heroAtlas}
+          alt=""
+          aria-hidden="true"
+          decoding="async"
+          className="h-full w-full scale-110 object-cover opacity-[0.55] [mask-image:radial-gradient(circle_at_50%_45%,black,transparent_92%)]"
+        />
+        {/* Wash to keep routes and node cards readable over the imagery */}
+        <div className="absolute inset-0 bg-paper/45" />
+      </motion.div>
+
       {/* Map grid */}
       <motion.div
         className="atlas-grid pointer-events-none absolute inset-0"
@@ -99,8 +117,8 @@ export default function AtlasMap() {
           })}
         </svg>
 
-        {/* Nodes */}
-        <motion.div className="absolute inset-0" style={{ x: sx, y: sy }}>
+        {/* Nodes — absolute percent-positioned cards (desktop only) */}
+        <motion.div className="absolute inset-0 hidden sm:block" style={{ x: sx, y: sy }}>
           {atlasNodes.map((node, i) => (
             <motion.article
               key={node.id}
@@ -126,6 +144,27 @@ export default function AtlasMap() {
             </motion.article>
           ))}
         </motion.div>
+      </div>
+
+      {/* Nodes — stacked card grid (mobile only) so cards stay readable and never clip */}
+      <div className="relative grid grid-cols-1 gap-3 p-4 [@media(min-width:420px)]:grid-cols-2 sm:hidden">
+        {atlasNodes.map((node) => (
+          <article
+            key={node.id}
+            className="rounded-3xl border border-ink/10 bg-white/80 p-4 shadow-[0_22px_60px_rgba(16,32,27,0.14)] backdrop-blur-md"
+          >
+            <span
+              className="block h-3 w-3 rounded-full"
+              style={{
+                backgroundColor: accentHex[node.accent],
+                boxShadow: `0 0 0 7px ${accentHex[node.accent]}22`,
+              }}
+              aria-hidden="true"
+            />
+            <h3 className="mt-4 text-lg font-extrabold tracking-tight text-ink">{node.label}</h3>
+            <p className="mt-1 text-sm leading-snug text-muted">{node.blurb}</p>
+          </article>
+        ))}
       </div>
 
       {/* Legend */}
