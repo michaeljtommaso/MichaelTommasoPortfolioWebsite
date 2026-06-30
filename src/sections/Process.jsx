@@ -40,6 +40,13 @@ export default function Process() {
             />
           </div>
           <div className="absolute inset-0 bg-gradient-to-r from-paper/40 via-transparent to-paper/40" />
+          {/* Five-stage segmentation — reads the strip as a workflow timeline,
+              not a generic banner: Research · Sketch · Build · Verify · Ship */}
+          <div className="pointer-events-none absolute inset-0 grid grid-cols-5" aria-hidden="true">
+            {processSteps.map((step, i) => (
+              <div key={step.step} className={i > 0 ? "border-l border-white/15" : ""} />
+            ))}
+          </div>
         </div>
 
         <div className="relative">

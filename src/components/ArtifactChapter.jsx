@@ -80,8 +80,24 @@ export default function ArtifactChapter({ system, flip }) {
           aria-hidden="true"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+
+        {/* Authored atlas-plate frame — hairline border + registration marks
+            so the generated image reads as a surveyed plate, not AI art */}
+        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          <div className="absolute inset-3 rounded-[22px] border border-white/15" />
+          <span className="absolute left-3 top-3 h-4 w-4 border-l border-t border-white/35" />
+          <span className="absolute right-3 top-3 h-4 w-4 border-r border-t border-white/35" />
+          <span className="absolute bottom-3 left-3 h-4 w-4 border-b border-l border-white/35" />
+          <span className="absolute bottom-3 right-3 h-4 w-4 border-b border-r border-white/35" />
+        </div>
+
         <div className="absolute left-6 bottom-6 right-6">
-          <span className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/80">
+          <span className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/80">
+            <span
+              className="h-2 w-2 rounded-full"
+              style={{ backgroundColor: accentHex[system.accent] }}
+              aria-hidden="true"
+            />
             Chapter {system.index}
           </span>
           <h3 className="mt-2 text-4xl font-[1000] leading-none tracking-tight text-white md:text-5xl">
