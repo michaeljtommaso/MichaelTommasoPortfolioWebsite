@@ -1,7 +1,11 @@
 # Norse Scroll-Cinema Portfolio — Design Spec
 
 **Date:** 2026-06-30
-**Status:** Approved (design) — pending spec review → implementation plan
+**Status:** Design approved; Beat 0 built on `feat/norse-scroll-cinema` (main untouched).
+**⚠ Art direction / visual world is under re-evaluation as of 2026-07-01** — the engine,
+content lineup, beat structure, and phasing are LOCKED and theme-agnostic; only the visual
+world + assets + themed copy are open. See the companion handoff doc:
+`2026-07-01-session-handoff-scroll-cinema.md`.
 **Owner:** Michael Tommaso
 
 ---
@@ -32,6 +36,12 @@ description, real link.
 | Warrior portrayal | **Helmeted / armored, face obscured** | Far easier cross-shot consistency; intentionally cinematic; viewer projects onto the figure. |
 | Video model | **Hybrid** — one AI cinematic backbone (front) + modular non-video tail | Front half is the seamless cinematic; content-dense tail stays light and cheap for v1. |
 | Build sequencing | **Spike → vertical slice → full build** | De-risk art direction and scroll mechanics before committing AI-generation credits to the full shot list. |
+
+> **⚠ Theme-dependent rows (Art direction, Warrior portrayal) are UNDER RE-EVALUATION
+> (2026-07-01).** Michael likes the plan and the mechanic but is re-shopping the visual world
+> (space / landscape / other) via a ChatGPT ideation prompt. Treat "Norse-tech fusion" and the
+> "helmeted warrior" as the current **placeholder**, not final. Everything else in this table
+> is locked. When a world is chosen, swap the anchor still + themed copy; the engine is unchanged.
 
 ### v1 must-haves & governing principle
 
