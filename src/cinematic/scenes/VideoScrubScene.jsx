@@ -79,6 +79,9 @@ export default function VideoScrubScene({ scene, index }) {
       const duration = videoEl.duration || 1;
       const isHero = scene.tone === "hero";
 
+      const motionScale = scene.motionScale ?? 0.35;
+      const usableDuration = Math.max(0.1, duration - 0.12);
+
       ctx = gsap.context(() => {
         gsap.set(overlay.current, isHero ? { autoAlpha: 1, y: 0 } : { autoAlpha: 0, y: 36 });
 
@@ -91,12 +94,16 @@ export default function VideoScrubScene({ scene, index }) {
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            videoEl.currentTime = Math.min(duration - 0.05, Math.max(0, self.progress * duration));
+            const easedProgress = gsap.parseEase("power1.inOut")(self.progress);
+            videoEl.currentTime = Math.min(
+              duration - 0.05,
+              Math.max(0, easedProgress * usableDuration * motionScale)
+            );
           },
         });
 
         gsap.to(mediaWrap.current, {
-          scale: 1.06,
+          scale: 1.018,
           ease: "none",
           scrollTrigger: {
             trigger: root.current,
@@ -135,7 +142,7 @@ export default function VideoScrubScene({ scene, index }) {
       videoEl.removeEventListener("loadedmetadata", setup);
       ctx?.revert();
     };
-  }, [desktopMotion, scene.revealAt, scene.scrubLength, scene.tone, shouldRenderVideo]);
+  }, [desktopMotion, scene.motionScale, scene.revealAt, scene.scrubLength, scene.tone, shouldRenderVideo]);
 
   const alignClass =
     scene.align === "right"
@@ -192,15 +199,15 @@ export default function VideoScrubScene({ scene, index }) {
         ref={overlay}
         className={`relative z-10 flex min-h-[100dvh] flex-col justify-end px-5 pb-14 pt-24 md:px-10 md:pb-16 lg:px-16 ${alignClass}`}
       >
-        <div className={`${panelClass} cinematic-overlay border border-white/14 bg-black/40 p-5 backdrop-blur-md md:p-7`}>
-          <p className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.24em] text-cyan-200">
+        <div className={`${panelClass} cinematic-overlay border-l border-white/24 bg-black/16 py-2 pl-5 pr-3 backdrop-blur-[2px] md:pl-7`}>
+          <p className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.24em] text-white/62">
             {String(index + 1).padStart(2, "0")} / {scene.stage}
           </p>
-          <p className="mt-4 text-sm font-semibold text-white/72">{scene.eyebrow}</p>
+          <p className="mt-4 text-sm font-semibold text-white/58">{scene.eyebrow}</p>
           <h2 className="mt-3 text-[clamp(2.5rem,7vw,6.8rem)] font-[1000] leading-[0.88] text-white">
             {scene.title}
           </h2>
-          <p className="mt-4 max-w-2xl text-xl font-semibold leading-tight text-cyan-100 md:text-2xl">
+          <p className="mt-4 max-w-2xl text-xl font-semibold leading-tight text-white/84 md:text-2xl">
             {scene.subtitle}
           </p>
           <p className="mt-4 max-w-[62ch] text-base leading-relaxed text-white/78 md:text-lg">
@@ -212,7 +219,7 @@ export default function VideoScrubScene({ scene, index }) {
               {scene.stats.map((stat) => (
                 <li
                   key={stat}
-                  className="border border-white/14 bg-white/8 px-3 py-2 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-white/82"
+                  className="border border-white/12 bg-black/18 px-3 py-2 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-white/68"
                 >
                   {stat}
                 </li>

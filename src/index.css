@@ -80,8 +80,8 @@ img {
 
 .cinematic-overlay {
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.14),
-    0 30px 100px rgb(0 0 0 / 0.34);
+    -24px 0 70px rgb(0 0 0 / 0.28),
+    0 30px 100px rgb(0 0 0 / 0.2);
 }
 
 @media (max-width: 767px), (prefers-reduced-motion: reduce) {
