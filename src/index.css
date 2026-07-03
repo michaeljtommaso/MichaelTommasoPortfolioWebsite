@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  /* Light / warm canvas */
   --color-mist: #edf4f0;
   --color-paper: #fbfcf7;
   --color-ink: #10201b;
@@ -26,33 +25,30 @@ html {
 body {
   margin: 0;
   font-family: var(--font-sans);
-  color: var(--color-ink);
-  background: var(--color-mist);
+  color: white;
+  background: #020306;
   overflow-x: hidden;
 }
 
-/* Cinematic, living canvas behind everything */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(circle at 82% 12%, rgba(60, 174, 114, 0.18), transparent 32rem),
-    radial-gradient(circle at 14% 26%, rgba(255, 91, 46, 0.13), transparent 30rem),
-    radial-gradient(circle at 60% 88%, rgba(42, 127, 255, 0.14), transparent 34rem),
-    linear-gradient(180deg, #edf4f0, #e6efe9 52%, #f7efe3);
+    radial-gradient(circle at 82% 12%, rgba(91, 208, 255, 0.14), transparent 32rem),
+    radial-gradient(circle at 14% 26%, rgba(255, 255, 255, 0.08), transparent 30rem),
+    linear-gradient(180deg, #020306, #060910 52%, #030407);
 }
 
-/* Subtle paper grain so the light canvas never feels flat */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.22;
-  mix-blend-mode: multiply;
+  opacity: 0.12;
+  mix-blend-mode: screen;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
 }
 
@@ -73,11 +69,28 @@ img {
   background: rgba(42, 127, 255, 0.2);
 }
 
-/* Visible focus for keyboard users */
 :focus-visible {
-  outline: 2px solid var(--color-blue);
+  outline: 2px solid #a5f3fc;
   outline-offset: 3px;
-  border-radius: 4px;
+}
+
+.cinematic-scene {
+  isolation: isolate;
+}
+
+.cinematic-overlay {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.14),
+    0 30px 100px rgb(0 0 0 / 0.34);
+}
+
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .cinematic-overlay {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    background: rgb(0 0 0 / 0.56);
+  }
 }
 
 /* Map grid texture used inside the atlas canvas */
