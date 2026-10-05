@@ -122,6 +122,17 @@ export default function FeatureCard({ item, flip }) {
         </div>
         {item.statusNote && <p className="mt-3 text-sm text-muted">{item.statusNote}</p>}
         {item.note && <p className="mt-3 text-sm text-muted/80">{item.note}</p>}
+        {item.contact && (
+          <p className="mt-1 text-sm text-muted/80">
+            {item.contact.label}:{" "}
+            <a
+              href={`mailto:${item.contact.email}`}
+              className="font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-blue"
+            >
+              {item.contact.email}
+            </a>
+          </p>
+        )}
       </div>
     </motion.article>
   );

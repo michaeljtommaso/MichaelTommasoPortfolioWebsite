@@ -26,7 +26,7 @@ export const navLinks = [
 ];
 
 export const socials = {
-  email: "mjt288@cornell.edu",
+  email: "michaeljtommaso@gmail.com",
   github: "https://github.com/michaeljtommaso",
   linkedin: "https://www.linkedin.com/in/michaeltommaso",
   resume: "/resume.pdf",
@@ -68,6 +68,7 @@ export const work = [
     status: "Pilot planned",
     links: [{ label: "mccallos.com", href: "https://mccallos.com" }],
     note: "Code is private.",
+    contact: { label: "McCallos inquiries", email: "michael@mccallos.com" },
     image: mccallosShot,
     real: true,
   },
