@@ -1,32 +1,33 @@
-# Michael Tommaso — Systems Atlas
+# Michael Tommaso
 
-> Portfolio of Michael Tommaso, who builds AI systems and operational software.
-> The site is a "Fluid Systems Atlas": a living map where each section is a route
-> from idea to working artifact.
+> Cornell University, B.S. Operations Research & Engineering, expected May 2029 (GPA 3.82).
+> CTO and only engineer at McCallos, a three-person NYC property-compliance startup.
+> Seeking Summer 2027 internships.
 
-## About
+## Work
 
-Michael builds useful AI systems and operational software, and prototypes across
-engineering, machine learning, and product. Core focus areas:
+- [McCallos](https://mccallos.com): Chief Technology Officer, May 2026 to present. React/TypeScript web app and Capacitor iOS/Android apps on Firebase for NYC property managers. Pulls 17 city open-data feeds into one compliance calendar of 36 obligations; work orders assign each obligation or repair to a vendor with photo approval and a log of each step. Pilot planned. Code is private.
+- AI Document Agent, Empire Environmental (AI Engineer, summer 2026): a Hermes agent that drafts DDC Site Safety Plans from a contract's bid set, with three-tier retrieval memory and a scoring harness against the firm's approved filings. Drafts score 98/100 across 25 templates (none below 83) at 2.4 minutes each; a vision pipeline cut one query from 413 seconds to 14. Installing at the firm in fall 2026.
 
-- Agent orchestration and AI runtimes
-- Multi-tenant operational SaaS
-- Creative, design-to-deploy software pipelines
+## Projects
 
-## Flagship systems
+- [Coursemap](https://degree-planner-app.web.app): Cornell degree planner (work in progress, finishing before spring course selection in late November 2026). Gathers professor ratings, prerequisites and co-requisites, and typical offering terms; draws prerequisite chains on a semester map, marks courses green or red by whether their requirements are met, flags wrong-term placements, and ranks 15 Cornell majors by coverage using bipartite matching.
+- [Guitar Tutor](https://github.com/michaeljtommaso/guitar-training-software): browser app (work in progress) that watches the fretting hand by webcam, places chord targets on the real fretboard, identifies played chords from the mic, and includes an amp-tone chain.
+- Mimir + Bifrost: a personal Hermes agent on Michael's server, reached over Telegram, with helper agents for research, errands, and calendar; Bifrost is the FastAPI + React command center where he queues work and approves anything that spends money or publishes. Private.
 
-- [MimirAgent](https://github.com/michaeljtommaso): Hermes-style agent orchestration runtime — tools, persistent memory, worker fan-out, browser control, code execution, voice, and schedules.
-- [McCallos](https://github.com/michaeljtommaso): Multi-tenant property operations platform — dashboards, role permissions, mobile field capture, and workflow automation.
-- [Website Foundry](https://github.com/michaeljtommaso): Design-to-deploy pipeline — precedent scouting, sketch generation, asset synthesis, agentic build, and browser verification.
+## Client work
 
-## Selected builds
+- [Il Colosseo Ristorante](https://ilcolosseoristorante.com): new site for a two-location restaurant; organic clicks +140%, impressions +134% to 25.3K after merging a split domain and redirecting 27 legacy URLs; catering inquiries via Firebase Cloud Functions.
+- [Closet Curations Co.](https://closetcurationco.com): styling-studio site with Calendly booking and an animated portfolio.
 
-- Machine Learning Stock Trading Bot — Python ML trading system with rolling training windows.
-- Lightweight Aquatic Vehicle — underwater transport device prototyped with 3D modeling and custom circuitry.
-- Early interactive builds — Punnett Square Generator, Chi-Squared Calculator, Metronome, and more.
+## Earlier
+
+- Handheld underwater propulsion device, GE Aerospace internship (2024): 18 lb working prototype, Fusion 360 / OnShape, 24V dual-battery circuit.
+- LSTM stock price model: PyTorch next-day closing-price model on 12 years of daily closes.
 
 ## Links
 
+- Email: mjt288@cornell.edu
 - GitHub: https://github.com/michaeljtommaso
 - LinkedIn: https://www.linkedin.com/in/michaeltommaso
-- Résumé: https://michaeljtommaso.github.io/MichaelTommasoPortfolioWebsite/resume.pdf
+- Résumé: https://michaeltommaso.com/resume.pdf

@@ -1,38 +1,27 @@
-# Michael Tommaso — Systems Atlas
+# Michael Tommaso: Portfolio
 
-A personal portfolio built as a **Fluid Systems Atlas**: a living map where each
-scroll reveals another route, artifact, or chapter. Michael builds AI systems and
-operational software — agent orchestration, multi-tenant SaaS, and creative
-design-to-deploy pipelines — and the site is designed to feel like a cinematic
-interface-documentary of that work rather than a static card grid.
+Personal site for Michael Tommaso, Cornell Operations Research & Engineering '29 and CTO of McCallos.
 
 🔗 **Live site:** https://michaeltommaso.com
 
 ## Stack
 
-- **React 19** + **Vite** — app framework and build tooling
-- **Tailwind CSS v4** — design tokens and styling (`@theme` in `src/index.css`)
-- **Motion** (`motion/react`) — scroll-linked routes, parallax, and image expansion
-- **Formspree** — contact form delivery
-
-## Design
-
-- Light, warm canvas (mist / ivory / paper) with graphite ink and route accents
-  (orange, blue, mint, yellow).
-- Cinematic map language: routes, system nodes, artifact panels, expanding imagery.
-- Fluid motion on **native scroll** (no scroll-jacking), with
-  `prefers-reduced-motion` respected.
+- **React 19** + **Vite**: app framework and build tooling
+- **Tailwind CSS v4**: design tokens and styling (`@theme` in `src/index.css`)
+- **Motion** (`motion/react`): entrance and scroll motion, with `prefers-reduced-motion` respected
+- **Formspree**: contact form delivery
 
 ## Page structure
 
-1. **Hero atlas** — editorial headline + interactive map of system nodes and routes.
-2. **Artifact chapters** — cinematic panels for MimirAgent, McCallos, and Website Foundry.
-3. **Selected builds** — engineering, ML, and early interactive projects.
-4. **Process** — Research → Sketch → Build → Verify → Ship.
-5. **Living layer** — what's being built now, plus career trajectory.
-6. **Contact** — links, résumé, and a message form.
+1. **Hero**: who I am, plus real product screenshots linking down to each card.
+2. **Work**: McCallos and the Empire Environmental document agent.
+3. **Projects**: Coursemap, Guitar Tutor, Mimir + Bifrost.
+4. **Client work** and **Earlier builds**.
+5. **Experience** and **Education**.
+6. **Contact**: email, links, résumé, and a message form.
 
-Repeated sections are data-driven: see `src/data/portfolioData.js`.
+All content lives in `src/data/portfolioData.js`; sections map over it. Product screenshots live
+in `src/assets/real/`. `public/og-image.png` is the link-preview card.
 
 ## Development
 
@@ -44,18 +33,6 @@ npm run preview  # preview the production build
 npm run lint     # run ESLint
 ```
 
-## Project layout
-
-```
-src/
-  components/   reusable UI (Navbar, AtlasMap, ArtifactChapter, BuildCard, …)
-  sections/     page sections (HeroAtlas, Chapters, SelectedBuilds, Process, …)
-  data/         portfolioData.js — single source of truth for content
-  utils/        motion.js — shared animation variants
-public/         static assets, archived interactive sites, AI-visibility files
-```
-
 ## Deployment
 
-Pushed to `main`, the site builds and deploys to GitHub Pages via
-`.github/workflows/static.yml`.
+Pushes to `main` build and deploy to GitHub Pages via `.github/workflows/static.yml`.

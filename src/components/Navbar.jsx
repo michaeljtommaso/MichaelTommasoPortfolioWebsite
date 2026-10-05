@@ -15,7 +15,7 @@ export default function Navbar() {
         aria-label="Primary"
         className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 rounded-full border border-ink/10 bg-paper/70 px-3 py-2 shadow-[0_22px_70px_rgba(16,32,27,0.12)] backdrop-blur-xl md:px-4"
       >
-        <a href="#top" className="flex items-center gap-3 pl-1" aria-label="Michael Tommaso — home">
+        <a href="#top" className="flex items-center gap-3 pl-1" aria-label="Michael Tommaso, home">
           <span
             className="h-8 w-8 rounded-xl border border-ink/15 shadow-[inset_0_0_0_5px_var(--color-paper)]"
             style={{

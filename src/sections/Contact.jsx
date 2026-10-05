@@ -49,7 +49,14 @@ export default function Contact() {
           Let's build something.
         </motion.h2>
         <motion.p variants={fadeUp} className="mt-4 max-w-lg text-lg leading-relaxed text-muted">
-          Reach out directly, follow my work, or send a note below.
+          Email me at{" "}
+          <a
+            href={`mailto:${socials.email}`}
+            className="font-semibold text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-blue"
+          >
+            {socials.email}
+          </a>
+          , or send a note below.
         </motion.p>
 
         <motion.div variants={fadeUp} className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -89,7 +96,7 @@ export default function Contact() {
               </label>
               {error && (
                 <p role="alert" className="text-sm font-medium text-orange">
-                  Something went wrong — try again or email me directly.
+                  Something went wrong. Try again, or email me.
                 </p>
               )}
               <button

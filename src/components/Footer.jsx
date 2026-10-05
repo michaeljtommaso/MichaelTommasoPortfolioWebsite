@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col gap-6 border-t border-ink/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-sm font-extrabold tracking-tight text-ink">Michael Tommaso</p>
-          <p className="mt-1 text-sm text-muted">A living map of systems I build.</p>
+          <p className="mt-1 text-sm text-muted">Cornell Operations Research & Engineering '29</p>
         </div>
 
         <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-2 font-mono text-xs uppercase tracking-[0.08em] text-muted">
