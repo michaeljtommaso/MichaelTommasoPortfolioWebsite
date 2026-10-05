@@ -23,7 +23,7 @@
 ## Earlier
 
 - Handheld underwater propulsion device, GE Aerospace internship (2024): 18 lb working prototype, Fusion 360 / OnShape, 24V dual-battery circuit.
-- LSTM stock price model: PyTorch next-day closing-price model on 12 years of daily closes.
+- [LSTM stock price model](https://github.com/michaeljtommaso/StockTradingBot): PyTorch next-day closing-price model on 12 years of daily closes.
 
 ## Links
 

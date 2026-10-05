@@ -212,6 +212,8 @@ export const earlierBuilds = [
   },
   {
     title: "LSTM stock price model",
+    linkLabel: "GitHub · StockTradingBot",
+    link: "https://github.com/michaeljtommaso/StockTradingBot",
     description:
       "A PyTorch model that predicts the next day's closing price, trained on 12 years of daily closes I pulled from yFinance into SQLite.",
     stack: ["Python", "PyTorch", "SQLite"],
