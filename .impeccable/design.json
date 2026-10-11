@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-03T00:00:00Z",
+  "title": "Design System: Orbital Foundry Scroll Cinema",
+  "extensions": {
+    "colorMeta": {
+      "cinema-bg": {
+        "role": "neutral",
+        "displayName": "Void",
+        "canonical": "#030406",
+        "tonalRamp": ["#030406", "#0a0d12", "#141821", "#222834", "#39404f", "#575f70", "#7d8494", "#a8adba"]
+      },
+      "cinema-ink": {
+        "role": "primary",
+        "displayName": "Signal Ivory",
+        "canonical": "#f6f2e8",
+        "tonalRamp": ["#262319", "#45402e", "#665f45", "#8a815f", "#ada37c", "#ccc19b", "#e4dcc2", "#f6f2e8"]
+      },
+      "cinema-amber": {
+        "role": "primary",
+        "displayName": "Foundry Amber",
+        "canonical": "#d8b56b",
+        "tonalRamp": ["#2e2412", "#4d3c1e", "#6f582d", "#92753f", "#b39253", "#d8b56b", "#e8cf97", "#f4e5c4"]
+      },
+      "cinema-blue": {
+        "role": "primary",
+        "displayName": "Bridge Blue",
+        "canonical": "#91c8ff",
+        "tonalRamp": ["#0d2033", "#1a3a5c", "#2a5685", "#3f74ad", "#5c93d3", "#91c8ff", "#b4d9ff", "#dceeff"]
+      },
+      "cinema-muted": {
+        "role": "neutral",
+        "displayName": "Ivory Muted",
+        "canonical": "rgba(246,242,232,0.68)"
+      },
+      "cinema-faint": {
+        "role": "neutral",
+        "displayName": "Ivory Faint",
+        "canonical": "rgba(246,242,232,0.42)"
+      },
+      "cinema-line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(246,242,232,0.18)"
+      },
+      "cinema-glow": {
+        "role": "primary",
+        "displayName": "Orbital Glow",
+        "canonical": "rgba(145,200,255,0.16)"
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Scene titles inside the cinematic overlay. One per scene." },
+      "headline": { "displayName": "Headline", "purpose": "Tail section openers." },
+      "title": { "displayName": "Title", "purpose": "Artifact card and process step titles." },
+      "body": { "displayName": "Body", "purpose": "Descriptions and field notes. Max measure 62ch." },
+      "label": { "displayName": "Label", "purpose": "Mono instrumentation: counters, stages, stacks, metadata. Uppercase, tracked 0.24em." }
+    },
+    "shadows": [
+      {
+        "name": "overlay-ambience",
+        "value": "-18px 0 58px rgb(0 0 0 / 0.22), 0 24px 80px rgb(0 0 0 / 0.16)",
+        "purpose": "The single sanctioned shadow — seats the caption overlay into the footage. Not for cards, chips, or buttons."
+      }
+    ],
+    "motion": [
+      { "name": "scrub-smoothing", "value": "0.45", "purpose": "GSAP ScrollTrigger scrub value for all scene timelines." },
+      { "name": "hover-transition", "value": "300ms ease", "purpose": "Lift + color shift on buttons and cards." },
+      { "name": "reveal-ease", "value": "power2.out", "purpose": "Caption overlay late reveal (fade + 36px rise, scrubbed)." },
+      { "name": "media-scale", "value": "1.0 → 1.035", "purpose": "Subtle scene media scale over the full runway. Never zoom-heavy." },
+      { "name": "scene-runway", "value": "520–600vh per 8s clip", "purpose": "Full clip duration maps to full scroll runway. Never clamp playback." }
+    ],
+    "breakpoints": [
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "video-cutoff", "value": "767px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Signal Ivory action block — Resume, GitHub, scene links. Square-cut, lifts on hover.",
+      "html": "<a href=\"#\" class=\"ds-btn-primary\">Resume</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; background: #f6f2e8; color: #09090b; font-family: 'DM Sans', system-ui, sans-serif; font-size: 0.875rem; font-weight: 700; text-decoration: none; border: 1px solid rgba(246,242,232,0.18); border-radius: 0; transition: transform 0.3s, background-color 0.3s; } .ds-btn-primary:hover { transform: translateY(-2px); background: #dff3ff; } .ds-btn-primary:focus-visible { outline: 2px solid #a5f3fc; outline-offset: 3px; }"
+    },
+    {
+      "name": "Stat Chip",
+      "kind": "chip",
+      "refersTo": "chip-stat",
+      "description": "Mono readout for stacks and stats under captions and on artifact cards. Never interactive.",
+      "html": "<span class=\"ds-chip\">Multi-tenant</span>",
+      "css": ".ds-chip { display: inline-block; padding: 8px 12px; border: 1px solid rgba(246,242,232,0.18); background: rgba(0,0,0,0.16); color: rgba(246,242,232,0.68); font-family: 'DM Mono', ui-monospace, monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; border-radius: 0; }"
+    },
+    {
+      "name": "Artifact Card",
+      "kind": "card",
+      "refersTo": "card-artifact",
+      "description": "Dark field-note card for builds in the tail. Hairline border, faint tint, gradient top hairline, hover lift.",
+      "html": "<a href=\"#\" class=\"ds-card-artifact\"><span class=\"ds-card-artifact-label\">Artifact 01</span><h3 class=\"ds-card-artifact-title\">McCallos v2</h3><p class=\"ds-card-artifact-body\">Production multi-tenant property operations SaaS with RBAC, automation, and an in-app AI assistant.</p></a>",
+      "css": ".ds-card-artifact { position: relative; display: block; overflow: hidden; padding: 24px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.035); color: #f6f2e8; text-decoration: none; font-family: 'DM Sans', system-ui, sans-serif; border-radius: 0; transition: transform 0.3s, border-color 0.3s; } .ds-card-artifact::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.26), transparent); } .ds-card-artifact:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.24); } .ds-card-artifact-label { font-family: 'DM Mono', ui-monospace, monospace; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.24em; color: rgba(255,255,255,0.38); } .ds-card-artifact-title { margin: 32px 0 0; font-size: 1.5rem; font-weight: 900; line-height: 1.25; } .ds-card-artifact-body { margin: 16px 0 0; font-size: 0.875rem; line-height: 1.625; color: rgba(255,255,255,0.62); }"
+    },
+    {
+      "name": "Process Step Card",
+      "kind": "card",
+      "refersTo": "card-artifact",
+      "description": "Quieter flat card for process steps: mono step number, black-tint fill.",
+      "html": "<article class=\"ds-card-process\"><p class=\"ds-card-process-step\">03</p><h3 class=\"ds-card-process-title\">Build</h3><p class=\"ds-card-process-body\">Ship the system in vertical slices, verified at each gate.</p></article>",
+      "css": ".ds-card-process { padding: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.24); color: #f6f2e8; font-family: 'DM Sans', system-ui, sans-serif; border-radius: 0; } .ds-card-process-step { margin: 0; font-family: 'DM Mono', ui-monospace, monospace; font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.46); } .ds-card-process-title { margin: 20px 0 0; font-size: 1.25rem; font-weight: 900; } .ds-card-process-body { margin: 12px 0 0; font-size: 0.875rem; line-height: 1.625; color: rgba(255,255,255,0.62); }"
+    },
+    {
+      "name": "Caption Overlay",
+      "kind": "custom",
+      "refersTo": "button-primary",
+      "description": "The scene's voice: mono counter, eyebrow, display title, subtitle, body — seated onto footage with a left hairline and the system's only shadow.",
+      "html": "<div class=\"ds-overlay-stage\"><div class=\"ds-overlay\"><p class=\"ds-overlay-counter\">02 / Rail travel</p><p class=\"ds-overlay-eyebrow\">Approach vector</p><h2 class=\"ds-overlay-title\">Systems that arrive with context</h2><p class=\"ds-overlay-subtitle\">From cinematic stage to literal proof</p><p class=\"ds-overlay-body\">The motion sets the world. The overlays stay readable: real project names, real scope, and links where they matter.</p></div></div>",
+      "css": ".ds-overlay-stage { padding: 32px; background: radial-gradient(circle at 72% 18%, rgba(145,200,255,0.16), transparent 20rem), linear-gradient(180deg, #0a0d12, #030406); } .ds-overlay { max-width: 36rem; padding: 8px 12px 8px 28px; border-left: 1px solid rgba(246,242,232,0.18); background: rgba(0,0,0,0.1); backdrop-filter: blur(1px); box-shadow: -18px 0 58px rgb(0 0 0 / 0.22), 0 24px 80px rgb(0 0 0 / 0.16); font-family: 'DM Sans', system-ui, sans-serif; } .ds-overlay-counter { margin: 0; font-family: 'DM Mono', ui-monospace, monospace; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.24em; color: rgba(246,242,232,0.42); } .ds-overlay-eyebrow { margin: 16px 0 0; font-size: 0.875rem; font-weight: 600; color: rgba(246,242,232,0.68); } .ds-overlay-title { margin: 12px 0 0; font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 1000; line-height: 0.88; color: #f6f2e8; } .ds-overlay-subtitle { margin: 16px 0 0; font-size: 1.25rem; font-weight: 600; line-height: 1.25; color: rgba(246,242,232,0.88); } .ds-overlay-body { margin: 16px 0 0; max-width: 62ch; font-size: 1rem; line-height: 1.625; color: rgba(246,242,232,0.68); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Orbital Foundry",
+    "overview": "An industrial space fabrication facility, traversed slowly. The four approved videos are the environment — a cold open, a rail approach, the McCallos dock, the Mimir agent-core assembly — and everything the UI does is instrumentation laid over that footage: machined captions, hairline-bordered panels, mono-spaced readouts. The register is a serious builder documentary; the primary emotion is slow awe and controlled traversal. Pacing is earned with runway: each scene owns a tall sticky scroll distance mapped to the full clip duration, never by clamping or artificial delay.",
+    "keyCharacteristics": [
+      "Video is the environment; UI never competes with the footage.",
+      "Machined and exact: zero border-radius, 1px hairlines, mono labels.",
+      "Warm ivory ink on near-black void; amber and blue as scene-role accents.",
+      "Depth through atmosphere (localized gradients, glow) — not shadow stacks.",
+      "Reduced-motion and mobile users get bright poster stills and full content."
+    ],
+    "rules": [
+      { "name": "The Visible Footage Rule", "body": "Scene overlays are localized gradients only. Full-frame darkening beyond the documented gradients is prohibited; if text isn't readable, move or shrink the gradient, never dim the whole frame.", "section": "colors" },
+      { "name": "The Two-Accent Rule", "body": "Amber and blue never share a moment. Each accent belongs to a scene role (foundry warmth vs. orbital light); a surface commits to one or neither.", "section": "colors" },
+      { "name": "The Instrument Readout Rule", "body": "Anything mono is metadata: counters, stages, stacks, periods. Mono never carries a sentence; sentences belong to DM Sans.", "section": "typography" },
+      { "name": "The One Shadow Rule", "body": ".cinematic-overlay owns the only box-shadow in the system. Everything else is flat: hairline border, tint fill, done.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do map the full clip duration to the full scene scroll runway (~520–600vh per 8s clip, scrub: 0.45) — every pixel of scroll moves the video some amount.",
+      "Do keep media scale subtle: 1.0 → 1.035, never zoom-heavy.",
+      "Do serve bright poster stills to mobile and reduced-motion users, with overlays forced visible.",
+      "Do keep text on footage readable via placement and the documented localized gradients; body text holds ≥4.5:1 against the darkest frame beneath it.",
+      "Do use 0px radius, 1px hairlines, and mono uppercase labels for every new surface — machined and exact."
+    ],
+    "donts": [
+      "Don't bury the footage: no full-frame dark overlays, no re-stacking black gradients on top of the lifted video grade.",
+      "Don't paste cyber/sci-fi UI chrome on the footage — no HUD frames, glitch text, or neon grids.",
+      "Don't let the tail become a generic black SaaS dashboard — proof reads as dark field notes and artifact panels.",
+      "Don't build static card-grid portfolios or identical icon + heading + blurb cards.",
+      "Don't import the light Fluid Systems Atlas plates into the dark cinema.",
+      "Don't scroll-jack. Native scroll via Lenis; prefers-reduced-motion always gets a still, complete experience.",
+      "Don't clamp video playback to slow a scene down — lengthen the runway instead."
+    ]
+  }
+}
