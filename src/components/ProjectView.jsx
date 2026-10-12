@@ -1,25 +1,34 @@
 import { useEffect, useRef, useState } from "react";
 import { css, MONO } from "../lib/css";
 import { cineState } from "../lib/cine";
+import { bezier, tween, stopTween } from "../lib/tween";
 import { PROJ, ORDER } from "../data/orbit";
 
 /* Click a planet / label / "Enter orbit": the camera dives into it and the
- * project opens over its horizon. Timings are the handoff's ("Project view"). */
+ * project opens over its horizon. Timings are the handoff's ("Project view").
+ *
+ * Two planet layers, because Chrome draws a WAAPI-animated layer once, at the largest size it reaches:
+ *  - the dive ball is exactly cover-sized (~2300px) with a static surface: drawn once while it's a dot,
+ *    then only scaled down, so the dive and the return never show tiles filling in;
+ *  - the horizon ball (~3700px, with the turning surface) takes over at full cover, where only the
+ *    on-screen part needs drawing. Both show the same texture at the same scale, so the swap is invisible.
+ * On close the horizon crossfades into the dive ball (pre-drawn at full cover, 1% opacity, while the
+ * visitor reads) and that shrinks back onto the planet: no layer has to draw new tiles mid-transition.
+ * The scene behind zooms at most 4x via a main-thread tween (lib/tween.js); the handoff zoomed it 90x. */
 
-const EASE = "cubic-bezier(.76,0,.18,1)";
+const DIVE = "cubic-bezier(.62,0,.88,.45)", SETTLE = "cubic-bezier(.3,.6,.15,1)";
+const BACK = "cubic-bezier(.12,.6,.3,1)", DROP = "cubic-bezier(.7,0,.8,.4)", UP = "cubic-bezier(.76,0,.18,1)";
+const E_DIVE = bezier(0.62, 0, 0.88, 0.45), E_BACK = bezier(0.12, 0.6, 0.3, 1);
+const stageTf = (x, y, s) => `translate(${x}px,${y}px) scale(${s})`;
 const stage = () => document.querySelector("#universe > div");
 const horizon = () => {
   const W = innerWidth, H = innerHeight, d = Math.max(W * 2.6, H * 2.4);
   return { cx: W / 2, cy: H * 0.76 + d / 2, d };
 };
-/* The ball is rendered at its largest on-screen size (the horizon or full cover) and only ever scaled
- * down. The handoff used a 100px ball scaled ~37x; Chrome then re-rasterizes ~14M px whenever the
- * surface moves (about 1 fps here) or only partly draws it (hard cut lines). */
-const ballSize = () => Math.max(horizon().d, Math.hypot(innerWidth, innerHeight) * 1.25);
-const tf = (cx, cy, d) => {
-  const B = ballSize();
-  return `translate(${cx - B / 2}px,${cy - B / 2}px) scale(${d / B})`;
-};
+const coverSize = () => Math.hypot(innerWidth, innerHeight) * 1.25;
+const ballSize = () => Math.max(horizon().d, coverSize());
+/* Place a ball drawn at size `size` with its centre at (cx, cy) and on-screen diameter d. */
+const place = (size) => (cx, cy, d) => `translate(${cx - size / 2}px,${cy - size / 2}px) scale(${d / size})`;
 const uiEls = () => {
   const st = stage();
   const els = st ? [...st.children].filter((c) => !c.hasAttribute("data-mouse")) : [];
@@ -39,38 +48,63 @@ function bodyRect(id) {
   });
   return best ? { cx: best.left + best.width / 2, cy: best.top + best.height / 2, d: Math.max(best.width, 6) } : { cx: W / 2, cy: H / 2, d: 40 };
 }
+const cancelAll = (el) => el.getAnimations().forEach((x) => x.cancel());
+const BALL_SHADE = "position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 0%,rgba(255,250,240,.4) 0,transparent 26%),radial-gradient(circle at 50% 18%,transparent 42%,rgba(7,8,10,.86) 78%)";
 
 export default function ProjectView() {
   const [open, setOpen] = useState(null);
-  const R = useRef({}); // mutable bag: busy, pending, zoom, stageAnim, io, open (read only in handlers/effects)
-  const ov = useRef(), iris = useRef(), ball = useRef(), ballWrap = useRef(), spin = useRef(), content = useRef();
+  const R = useRef({}); // mutable bag: busy, pending, zoom, from, io, open (read only in handlers/effects)
+  const ov = useRef(), iris = useRef(), ball = useRef(), dive = useRef(), ballWrap = useRef(), spin = useRef(), glow = useRef(), content = useRef();
+
+  /* Size both balls for the current viewport; returns their placement helpers. */
+  function sizeBalls() {
+    const B = ballSize(), C = coverSize();
+    ball.current.style.width = ball.current.style.height = B + "px";
+    dive.current.style.width = dive.current.style.height = C + "px";
+    spin.current.style.width = 4 * B + "px"; // two map tiles, each 2B wide
+    return { B, C, tfB: place(B), tfC: place(C) };
+  }
 
   function arrive(from, withZoom) {
     const r = R.current;
-    const o = ov.current, ir = iris.current, b = ball.current, ct = content.current;
+    const o = ov.current, ir = iris.current, b = ball.current, dv = dive.current, ct = content.current, gl = glow.current, sp = spin.current;
     o.querySelectorAll("img[data-src]").forEach((im) => { if (im.getAttribute("src") !== im.dataset.src) im.src = im.dataset.src; });
     o.scrollTop = 0;
     ballWrap.current.style.opacity = 1;
-    const W = innerWidth, H = innerHeight, cover = Math.hypot(W, H) * 1.25, hz = horizon();
+    const W = innerWidth, H = innerHeight, hz = horizon();
+    const { B, C, tfB, tfC } = sizeBalls();
     ir.style.clipPath = "none";
-    const B = ballSize();
-    b.style.width = b.style.height = B + "px";
-    b.style.boxShadow = `0 ${-B / 100}px ${B / 10}px rgba(232,163,61,.35)`;
-    b.getAnimations().forEach((x) => x.cancel());
-    ir.getAnimations().forEach((x) => x.cancel());
+    [b, dv, ir, gl, sp].forEach(cancelAll);
+    // The horizon surface turns only once the ball has settled (a running animation mid-dive would
+    // pin its raster scale while it's still changing size).
+    const startSpin = () => sp.animate([{ transform: `translateX(${-2 * B}px)` }, { transform: "translateX(0)" }], { duration: 90000, iterations: Infinity });
     let t0;
     if (withZoom) {
-      const st = stage(), S = Math.min(90, cover / Math.max(from.d, 4)), org = `${from.cx}px ${from.cy}px`;
-      r.zoom = { org, end: `translate(${W / 2 - from.cx}px,${H / 2 - from.cy}px) scale(${S})` };
+      const st = stage(), S = Math.min(4, C / Math.max(from.d, 4)), org = `${from.cx}px ${from.cy}px`;
+      r.zoom = { org, x: W / 2 - from.cx, y: H / 2 - from.cy, s: S };
+      r.from = { ...from, id: r.open };
       uiEls().forEach((el) => el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 450, easing: "ease-in", fill: "forwards" }));
-      if (st) r.stageAnim = st.animate([{ transform: "translate(0px,0px) scale(1)", transformOrigin: org }, { transform: r.zoom.end, transformOrigin: org }], { duration: 1500, easing: "cubic-bezier(.62,0,.88,.45)", fill: "forwards" });
+      if (st) {
+        st.style.transformOrigin = org;
+        tween(st, stageTf, [0, 0, 1], [r.zoom.x, r.zoom.y, S], { duration: 1500, easing: E_DIVE });
+      }
       ir.style.opacity = 0;
-      b.style.opacity = 0;
       ir.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250, delay: 1300, fill: "forwards" });
-      b.animate([{ opacity: 0 }, { opacity: 1, offset: 0.12 }, { opacity: 1 }], { duration: 1800, delay: 1300, fill: "forwards", composite: "add" });
-      b.animate([{ transform: tf(W / 2, H / 2, cover) }, { transform: tf(hz.cx, hz.cy, hz.d) }], { duration: 1800, delay: 1300, easing: "cubic-bezier(.3,.6,.15,1)", fill: "both" });
-      // Once the iris is opaque, stop rendering the zoomed (up to 90x) stage behind it: left composited,
-      // it starves the GPU tile budget and the project text itself goes undrawn.
+      // Dive ball: appears on the planet and rushes to full cover in step with the zoom.
+      dv.animate([{ opacity: 0 }, { opacity: 1, offset: 0.17 }, { opacity: 1 }], { duration: 1300, fill: "forwards" });
+      dv.animate([{ transform: tfC(from.cx, from.cy, from.d) }, { transform: tfC(W / 2, H / 2, C) }], { duration: 1300, easing: DIVE, fill: "both" });
+      // Horizon ball takes over at full cover (same texture, same scale), then settles.
+      b.style.opacity = 0;
+      b.animate([{ transform: tfB(W / 2, H / 2, C) }, { transform: tfB(hz.cx, hz.cy, hz.d) }], { duration: 1800, delay: 1300, easing: SETTLE, fill: "both" }).onfinish = () => {
+        startSpin();
+        // Pre-draw the dive ball for the return trip while the visitor reads: at full cover, 1% opacity,
+        // behind the text. The exit then doesn't have to draw it at the same time as everything else.
+        dv.style.transform = tfC(W / 2, H / 2, C);
+        dv.style.opacity = 0.01;
+      };
+      setTimeout(() => { b.style.opacity = 1; dv.getAnimations().forEach((x) => x.cancel()); dv.style.opacity = 0; }, 1300);
+      gl.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 900, delay: 1900, fill: "both" });
+      // Once the iris is opaque, stop rendering the zoomed stage behind it (it would starve the tile budget).
       setTimeout(() => {
         cineState.paused = true;
         const s = stage();
@@ -79,15 +113,12 @@ export default function ProjectView() {
       t0 = 2000;
     } else {
       ir.style.opacity = 1;
+      dv.style.opacity = 0;
       b.style.opacity = 1;
-      b.animate([{ transform: tf(W / 2, H * 1.6, H * 0.5) }, { transform: tf(hz.cx, hz.cy, hz.d) }], { duration: 1300, easing: EASE, fill: "forwards" });
+      b.animate([{ transform: tfB(W / 2, H * 1.6, H * 0.5) }, { transform: tfB(hz.cx, hz.cy, hz.d) }], { duration: 1300, easing: UP, fill: "forwards" }).onfinish = startSpin;
+      gl.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, delay: 600, fill: "both" });
       t0 = 700;
     }
-    const sp = spin.current;
-    sp.getAnimations().forEach((x) => x.cancel());
-    // The horizon turns on its axis: two map tiles (each 2B wide) slide one tile on the GPU.
-    sp.style.width = 4 * B + "px";
-    sp.animate([{ transform: `translateX(${-2 * B}px)` }, { transform: "translateX(0)" }], { duration: 90000, iterations: Infinity });
     ct.getAnimations().forEach((x) => x.cancel());
     ct.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400, delay: t0 - 200, fill: "forwards" });
     o.querySelectorAll("[data-stagger]").forEach((el, i) =>
@@ -129,37 +160,48 @@ export default function ProjectView() {
     r.busy = true;
     const st0 = stage();
     if (st0) st0.style.contentVisibility = ""; // re-raster behind the iris before it's revealed
-    const o = ov.current, ir = iris.current, b = ball.current, ct = content.current;
-    const W = innerWidth, H = innerHeight, cover = Math.hypot(W, H) * 1.25, hz = horizon();
+    const o = ov.current, ir = iris.current, b = ball.current, dv = dive.current, ct = content.current;
+    const W = innerWidth, H = innerHeight;
+    const { C, tfC } = sizeBalls();
     o.querySelectorAll("[data-back]").forEach((el) => el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, fill: "forwards" }));
     ct.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 350, fill: "forwards" });
     ballWrap.current.style.opacity = 1;
-    b.getAnimations().forEach((x) => x.cancel());
-    b.style.opacity = 1;
-    b.animate([{ transform: tf(hz.cx, hz.cy, hz.d) }, { transform: tf(W / 2, H / 2, cover) }], { duration: 1000, delay: 150, easing: "cubic-bezier(.6,0,.4,1)", fill: "forwards" });
+    [spin.current, b, dv].forEach(cancelAll);
+    glow.current.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: "forwards" });
+    const back = r.from && r.from.id === r.open; // after "Next" it's a different planet: just fade
+    const T = back ? 600 : 300;
+    if (back) {
+      // Crossfade horizon -> full-cover dive ball (pre-drawn since the arrival): no new tiles to draw.
+      dv.style.transform = tfC(W / 2, H / 2, C);
+      dv.animate([{ opacity: 0.01 }, { opacity: 1 }], { duration: 400, delay: 150, fill: "forwards" });
+      b.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, delay: 350, fill: "forwards" });
+    } else {
+      b.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: "forwards" });
+    }
     setTimeout(() => {
       cineState.paused = false;
       ir.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: "forwards" });
-      b.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: "forwards" });
-      const st = stage();
-      if (st && r.zoom) {
-        r.stageAnim?.cancel();
-        r.stageAnim = st.animate([{ transform: r.zoom.end, transformOrigin: r.zoom.org }, { transform: "translate(0px,0px) scale(1)", transformOrigin: r.zoom.org }], { duration: 1500, easing: "cubic-bezier(.12,.6,.3,1)", fill: "forwards" });
+      if (back) {
+        // Reverse of the dive: the dive ball shrinks back onto the planet with the zoom-out, then hands off.
+        dv.animate([{ transform: tfC(W / 2, H / 2, C) }, { transform: tfC(r.from.cx, r.from.cy, r.from.d) }], { duration: 1500, easing: BACK, fill: "forwards" });
+        dv.animate([{ opacity: 1 }, { opacity: 1, offset: 0.75 }, { opacity: 0 }], { duration: 1500, fill: "forwards" });
       }
+      const st = stage();
+      if (st && r.zoom) tween(st, stageTf, [r.zoom.x, r.zoom.y, r.zoom.s], [0, 0, 1], { duration: 1500, easing: E_BACK });
       uiEls().forEach((el) => {
         el.getAnimations().forEach((x) => x.cancel());
         el.animate([{ opacity: 0 }, { opacity: 0, offset: 0.5 }, { opacity: 1 }], { duration: 1300, fill: "forwards" });
       });
-    }, 1150);
+    }, T);
     setTimeout(() => {
-      r.stageAnim?.cancel();
-      r.stageAnim = null;
+      const st = stage();
+      if (st) { stopTween(st); st.style.transform = st.style.transformOrigin = ""; }
       uiEls().forEach((el) => el.getAnimations().forEach((x) => x.cancel()));
       document.documentElement.style.overflow = "";
       r.io?.disconnect();
       setOpen(null);
       r.busy = false;
-    }, 2700);
+    }, T + 1550);
   }
 
   function next() {
@@ -167,12 +209,15 @@ export default function ProjectView() {
     if (r.busy || !r.open) return;
     r.busy = true;
     const b = ball.current, hz = horizon();
+    const { tfB } = sizeBalls();
     const nid = ORDER[(ORDER.indexOf(r.open) + 1) % ORDER.length];
     content.current.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: "forwards" });
-    b.getAnimations().forEach((a) => a.cancel());
+    [spin.current, b].forEach(cancelAll);
     b.style.opacity = 1;
-    const a = b.animate([{ transform: tf(hz.cx, hz.cy, hz.d) }, { transform: tf(hz.cx, hz.cy + innerHeight, hz.d) }], { duration: 600, easing: "cubic-bezier(.7,0,.8,.4)", fill: "forwards" });
-    a.onfinish = () => { r.pending = { from: null, zoom: false }; setOpen(nid); };
+    b.animate([{ transform: tfB(hz.cx, hz.cy, hz.d) }, { transform: tfB(hz.cx, hz.cy + innerHeight, hz.d) }], { duration: 600, easing: DROP, fill: "forwards" }).onfinish = () => {
+      r.pending = { from: null, zoom: false };
+      setOpen(nid);
+    };
   }
 
   // Run the arrival once the overlay for the new project has rendered.
@@ -183,7 +228,7 @@ export default function ProjectView() {
     const p = r.pending;
     r.pending = null;
     requestAnimationFrame(() => arrive(p.from, p.zoom));
-  }, [open]);
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps -- arrive() only touches refs
 
   useEffect(() => {
     const r = R.current;
@@ -204,10 +249,10 @@ export default function ProjectView() {
       cineState.paused = false;
       document.documentElement.style.overflow = "";
       const s = stage();
-      if (s) s.style.contentVisibility = "";
+      if (s) { stopTween(s); s.style.contentVisibility = s.style.transform = s.style.transformOrigin = ""; }
       r.io?.disconnect();
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps -- handlers only touch refs; bind once
 
   if (!open) return null;
   const d = PROJ[open];
@@ -217,9 +262,16 @@ export default function ProjectView() {
     <div ref={ov} role="dialog" aria-modal="true" aria-label={d.name} onScroll={(e) => { ballWrap.current.style.opacity = String(Math.max(0.25, 1 - (e.currentTarget.scrollTop / innerHeight) * 0.75)); }} style={css("position:fixed;inset:0;z-index:8990;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain")}>
       <div ref={iris} style={css("position:fixed;inset:0;background:#07080a;clip-path:circle(0px at 50% 50%)")} />
       <div ref={ballWrap} style={css("position:fixed;inset:0;pointer-events:none")}>
+        {/* Horizon glow: a plain gradient (a blurred box-shadow on the ~3700px ball was very slow to draw) */}
+        <div ref={glow} style={css("position:absolute;inset:0;opacity:0;background:radial-gradient(ellipse 70% 42% at 50% 80%,rgba(232,163,61,.34),rgba(232,163,61,.08) 45%,transparent 72%)")} />
         <div ref={ball} style={{ ...css("position:absolute;left:0;top:0;width:100px;height:100px;border-radius:50%;overflow:hidden;transform:scale(0)"), background: d.base }}>
           <div ref={spin} style={{ position: "absolute", left: 0, top: 0, height: "100%", backgroundImage: `url(${d.mapLg})`, backgroundSize: "auto 100%", backgroundRepeat: "repeat-x" }} />
-          <div style={css("position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 0%,rgba(255,250,240,.4) 0,transparent 26%),radial-gradient(circle at 50% 18%,transparent 42%,rgba(7,8,10,.86) 78%)")} />
+          <div style={css(BALL_SHADE)} />
+        </div>
+        {/* Dive ball: cover-sized, static surface (see the note at the top) */}
+        <div ref={dive} style={{ ...css("position:absolute;left:0;top:0;width:100px;height:100px;border-radius:50%;overflow:hidden;opacity:0;transform:scale(0)"), background: d.base }}>
+          <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${d.mapLg})`, backgroundSize: "auto 100%", backgroundRepeat: "repeat-x" }} />
+          <div style={css(BALL_SHADE)} />
         </div>
       </div>
       <button data-back="" onClick={close} className="btn-ghost" style={css(`position:fixed;left:4vw;top:22px;z-index:3;display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid rgba(236,232,225,.25);background:rgba(7,8,10,.88);color:#ece8e1;${MONO}font-size:11px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;opacity:0`)}>← Back to orbit</button>
