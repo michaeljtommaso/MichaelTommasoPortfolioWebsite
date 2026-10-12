@@ -8,7 +8,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 export default defineConfig([
   // Build output and archived static sites served from public/ are not
   // part of the React source and are not linted.
-  globalIgnores(['dist', 'public/websites', 'foundry-sketches', 'foundry-sketches-v2']),
+  globalIgnores(['dist', 'public/websites', 'design-handoff', 'foundry-sketches', 'foundry-sketches-v2']),
   {
     files: ['**/*.{js,jsx}'],
     plugins: { react },

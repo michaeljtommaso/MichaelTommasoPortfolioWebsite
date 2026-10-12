@@ -1,118 +1,65 @@
-@import "tailwindcss";
-
-@theme {
-  /* Light / warm canvas */
-  --color-mist: #edf4f0;
-  --color-paper: #fbfcf7;
-  --color-ink: #10201b;
-  --color-muted: #5c7068;
-
-  /* Route / system accents */
-  --color-orange: #ff5b2e;
-  --color-blue: #2a7fff;
-  --color-mint: #3cae72;
-  --color-yellow: #e6b53a;
-
-  --font-sans: "DM Sans", system-ui, sans-serif;
-  --font-mono: "DM Mono", ui-monospace, monospace;
+/* Orbit tokens (design-handoff/README.md, "Design tokens").
+ * Scene styles live inline in the components, verbatim from the handoff. */
+:root {
+  --bg: #07080a;
+  --ink: #ece8e1;
+  --amber: #e8a33d;
+  --muted: #8a877f;
 }
 
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-body {
-  margin: 0;
-  font-family: var(--font-sans);
-  color: var(--color-ink);
-  background: var(--color-mist);
-  overflow-x: hidden;
-}
-
-/* Cinematic, living canvas behind everything */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background:
-    radial-gradient(circle at 82% 12%, rgba(60, 174, 114, 0.18), transparent 32rem),
-    radial-gradient(circle at 14% 26%, rgba(255, 91, 46, 0.13), transparent 30rem),
-    radial-gradient(circle at 60% 88%, rgba(42, 127, 255, 0.14), transparent 34rem),
-    linear-gradient(180deg, #edf4f0, #e6efe9 52%, #f7efe3);
-}
-
-/* Subtle paper grain so the light canvas never feels flat */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.22;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
-}
-
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-a {
-  text-decoration: none;
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: clip;
 }
 
-img {
-  display: block;
-  max-width: 100%;
+body {
+  font-family: "Archivo", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--amber);
+}
+
+input,
+textarea,
+button {
+  font: inherit;
 }
 
 ::selection {
-  background: rgba(42, 127, 255, 0.2);
+  background: var(--amber);
+  color: var(--bg);
 }
 
-/* Visible focus for keyboard users */
 :focus-visible {
-  outline: 2px solid var(--color-blue);
+  outline: 2px solid var(--amber);
   outline-offset: 3px;
-  border-radius: 4px;
 }
 
-/* Map grid texture used inside the atlas canvas */
-.atlas-grid {
-  background-image:
-    linear-gradient(rgba(16, 32, 27, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 32, 27, 0.06) 1px, transparent 1px);
-  background-size: 48px 48px;
-  -webkit-mask-image: radial-gradient(circle at 50% 45%, black, transparent 88%);
-  mask-image: radial-gradient(circle at 50% 45%, black, transparent 88%);
+/* Hover states (inline styles set the resting look, so these need !important). */
+.btn-ghost:hover {
+  background: var(--ink) !important;
+  color: var(--bg) !important;
 }
-
-/* Faint route/paper texture for section depth & continuity.
- * Kept very low opacity and masked at the edges so text contrast is unaffected. */
-.route-texture {
-  position: relative;
-  isolation: isolate;
+.btn-solid:hover,
+.btn-send:hover {
+  background: var(--amber) !important;
+  color: var(--bg) !important;
 }
-.route-texture::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.06;
-  background-image: url("./assets/generated/route-texture.webp");
-  background-size: 60% auto;
-  background-position: center;
-  background-repeat: repeat;
-  -webkit-mask-image: linear-gradient(180deg, transparent, black 18%, black 82%, transparent);
-  mask-image: linear-gradient(180deg, transparent, black 18%, black 82%, transparent);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+.link-amber:hover {
+  color: var(--amber) !important;
 }
