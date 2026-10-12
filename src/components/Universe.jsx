@@ -1,9 +1,10 @@
 import { css, MONO } from "../lib/css";
 import { hero, socials, experiences, education, schoolWebsites } from "../data/portfolioData";
 import { PLANETS, CARDS, PROJ } from "../data/orbit";
-import { galaxyHaze, galaxyStars } from "../data/galaxyStars";
 import moonImg from "../assets/ai/moon.webp";
 import earthMap from "../assets/ai/earth-map.webp";
+import sunImg from "../assets/ai/sun.webp";
+import galaxyImg from "../assets/ai/galaxy.webp";
 
 /* The single #universe scene: Moon (intro) → Earth (McCallos) → Sol (one planet
  * per project) → Milky Way (experience). Every data-fx spec is from the handoff. */
@@ -35,14 +36,14 @@ export function MoonDisk({ spin = "rot 0:0 1:1080 lin" }) {
   );
 }
 
-/* Earth surface: the 2:1 equirect map scrolls sideways inside the disk, reading as axial spin.
+/* Planet surface: a 2:1 equirect map scrolls sideways inside the disk, reading as axial spin.
  * turns = full rotations across the scene; h = disk height in vh (one map tile is 2h wide). */
-function EarthSurface({ h, turns }) {
+function PlanetSurface({ map, h, turns }) {
   return (
     <div
       data-fx={`bgx 0:0vh 1:${f4(turns * 2 * h)}vh lin`}
       data-wrap={2 * h}
-      style={{ position: "absolute", left: 0, top: 0, height: "100%", width: `${4 * h}vh`, backgroundImage: `url(${earthMap})`, backgroundSize: "auto 100%", backgroundRepeat: "repeat-x", willChange: "transform" }}
+      style={{ position: "absolute", left: 0, top: 0, height: "100%", width: `${4 * h}vh`, backgroundImage: `url(${map})`, backgroundSize: "auto 100%", backgroundRepeat: "repeat-x", willChange: "transform" }}
     />
   );
 }
@@ -51,7 +52,6 @@ function Planet({ p }) {
   const d = PROJ[p.id];
   const [a0, a1] = p.rot;
   const size = `left:-${p.r}vh;top:-${p.r}vh;width:${2 * p.r}vh;height:${2 * p.r}vh;`;
-  const isEarth = p.id === "mccallos";
   return (
     <div data-fx={`rot 0.3639:${a0} 0.8015:${a1} lin`} style={{ ...css("position:absolute;left:0;top:0;width:0;height:0"), transform: `rotate(${a0}deg)` }}>
       <div data-fx={p.ring} style={css(`pointer-events:none;position:absolute;left:-${p.R}vh;top:-${p.R}vh;width:${2 * p.R}vh;height:${2 * p.R}vh;border-radius:50%;border:1px solid rgba(236,232,225,.22);opacity:0`)} />
@@ -63,11 +63,7 @@ function Planet({ p }) {
                 <div style={css(`position:absolute;left:-${f4(p.r * 2.4)}vh;top:-${f4(p.r * 0.55)}vh;width:${f4(p.r * 4.8)}vh;height:${f4(p.r * 1.1)}vh;border-radius:50%;border:.18vh solid rgba(234,209,160,.38);transform:rotate(-16deg)`)} />
               )}
               <div data-body={p.id} style={{ ...css(`position:absolute;${size}border-radius:50%;overflow:hidden`), background: d.base }}>
-                {isEarth ? (
-                  <EarthSurface h={2 * p.r} turns={4} />
-                ) : (
-                  <div data-fx={`rot 0:0 1:${p.spin} lin`} style={{ position: "absolute", inset: "-20%", background: d.spin }} />
-                )}
+                <PlanetSurface map={d.map} h={2 * p.r} turns={p.spin / 360} />
               </div>
               <div data-fx={`rot 0.3639:${a0} 0.8015:${a1} lin`} style={css(SHADE + ";" + size)} />
             </div>
@@ -185,9 +181,7 @@ export default function Universe() {
           <div data-fx="x 0.7523:-2375.00vh 0.8015:0vh io; y 0.7523:-791.67vh 0.8015:0vh io; scale 0.7523:79.1667 0.8015:1 0.9669:1.12 io; opacity 0.7486:0 0.7712:1 0.8109:1 0.8393:.5" style={css("position:absolute;left:0;top:0;width:0;height:0;opacity:0")}>
             <div style={css("position:absolute;left:0;top:0;width:0;height:0;transform:scaleY(0.5)")}>
               <div data-fx="rot 0.8015:0 1:-55 lin" style={css("position:absolute;left:-75vh;top:-75vh;width:150vh;height:150vh")}>
-                <div style={css("position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,rgba(255,236,200,.9) 0,rgba(232,163,61,.35) 6%,rgba(232,163,61,.08) 22%,transparent 50%)")} />
-                <div style={{ ...css("position:absolute;left:75vh;top:75vh;width:1vh;height:1vh;border-radius:50%"), boxShadow: galaxyHaze }} />
-                <div style={{ ...css("position:absolute;left:75vh;top:75vh;width:.22vh;height:.22vh;border-radius:50%"), boxShadow: galaxyStars }} />
+                <img src={galaxyImg} alt="" style={css("position:absolute;inset:0;width:100%;height:100%")} />
                 <div style={css("position:absolute;left:105vh;top:95vh;width:0;height:0")}>
                   <div data-fx="rot 0.8015:0 1:55 lin" style={css("position:absolute;left:0;top:0;width:0;height:0")}>
                     <div style={css("position:absolute;left:0;top:0;width:0;height:0;transform:scaleY(2)")}>
@@ -204,8 +198,8 @@ export default function Universe() {
           <div data-fx="x 0.3167:-218.08vh 0.3639:0vh 0.7523:0vh 0.8015:30vh io; y 0.3167:-158.64vh 0.3639:0vh 0.7523:0vh 0.8015:10vh io; scale 0.3167:24.2308 0.3639:0.85 0.7523:.95 0.8015:.012 io; opacity 0.3107:0 0.3167:1 0.7895:1 0.8015:0" style={css("position:absolute;left:0;top:0;width:0;height:0;opacity:0")}>
             <div data-fx="rot 0:0 1:240 lin" style={css("position:absolute;left:-16vh;top:-16vh;width:32vh;height:32vh;border-radius:50%;background:repeating-conic-gradient(rgba(255,214,150,.13) 0deg 3deg,transparent 3deg 13deg);-webkit-mask-image:radial-gradient(circle closest-side,#000 30%,transparent 100%);mask-image:radial-gradient(circle closest-side,#000 30%,transparent 100%)")} />
             <div style={css("position:absolute;left:-14vh;top:-14vh;width:28vh;height:28vh;border-radius:50%;background:radial-gradient(circle,rgba(232,163,61,.42) 0,rgba(232,163,61,.12) 40%,transparent 70%)")} />
-            <div style={css("position:absolute;left:-5vh;top:-5vh;width:10vh;height:10vh;border-radius:50%;overflow:hidden;background:radial-gradient(circle,#fff6e0 0,#f4cc7a 32%,#e8a33d 62%,#a4531d 100%);box-shadow:0 0 6vh rgba(232,163,61,.55)")}>
-              <div data-fx="rot 0:0 1:-720 lin" style={css("position:absolute;inset:-20%;background:radial-gradient(18% 10% at 40% 40%,rgba(255,250,230,.55),transparent),radial-gradient(14% 12% at 64% 60%,rgba(160,70,20,.35),transparent),radial-gradient(10% 18% at 30% 70%,rgba(255,250,230,.4),transparent)")} />
+            <div style={css("position:absolute;left:-5vh;top:-5vh;width:10vh;height:10vh;border-radius:50%;overflow:hidden;background:#e8a33d;box-shadow:0 0 6vh rgba(232,163,61,.55)")}>
+              <div data-fx="rot 0:0 1:-720 lin" style={{ position: "absolute", inset: 0, backgroundImage: `url(${sunImg})`, backgroundSize: "cover" }} />
             </div>
             <div style={css("position:absolute;left:0;top:0;width:0;height:0;transform:scaleY(0.42)")}>
               {PLANETS.map((p) => <Planet key={p.id} p={p} />)}
@@ -215,7 +209,7 @@ export default function Universe() {
           {/* L1: Earth + Moon */}
           <div data-fx="x 0:-965.22vh 0.1134:-159.37vh 0.1749:-150.14vh 0.2174:0vh 0.3167:0vh 0.3639:7.65vh io; y 0:999.91vh 0.1134:133.73vh 0.1749:125.99vh 0.2174:0vh 0.3167:0vh 0.3639:5.57vh io; scale 0:45 0.1134:7.43 0.1749:7 0.2174:1.55 0.3167:1.75 0.3639:0.0614 io; opacity 0.3545:1 0.3639:0" style={css("position:absolute;left:0;top:0;width:0;height:0")}>
             <div data-open="mccallos" data-body="mccallos" style={css("pointer-events:auto;cursor:pointer;position:absolute;left:-18vh;top:-18vh;width:36vh;height:36vh;border-radius:50%;overflow:hidden;background:#0b1a2a;box-shadow:0 0 6vh rgba(120,170,220,.22)")}>
-              <EarthSurface h={36} turns={2.5} />
+              <PlanetSurface map={earthMap} h={36} turns={2.5} />
               <div style={css(EARTH_SHADE)} />
             </div>
             <div data-fx="rot 0.2174:-40 0.3639:-170 lin" style={css("position:absolute;left:0;top:0;width:0;height:0;transform:rotate(-40deg)")}>

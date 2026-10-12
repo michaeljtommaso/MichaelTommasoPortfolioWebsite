@@ -2,17 +2,23 @@ import { useEffect, useRef, useState } from "react";
 import { css, MONO } from "../lib/css";
 import { cineState } from "../lib/cine";
 import { PROJ, ORDER } from "../data/orbit";
-import earthMap from "../assets/ai/earth-map.webp";
 
 /* Click a planet / label / "Enter orbit": the camera dives into it and the
  * project opens over its horizon. Timings are the handoff's ("Project view"). */
 
 const EASE = "cubic-bezier(.76,0,.18,1)";
 const stage = () => document.querySelector("#universe > div");
-const tf = (cx, cy, d) => `translate(${cx - 50}px,${cy - 50}px) scale(${d / 100})`;
 const horizon = () => {
   const W = innerWidth, H = innerHeight, d = Math.max(W * 2.6, H * 2.4);
   return { cx: W / 2, cy: H * 0.76 + d / 2, d };
+};
+/* The ball is rendered at its largest on-screen size (the horizon or full cover) and only ever scaled
+ * down. The handoff used a 100px ball scaled ~37x; Chrome then re-rasterizes ~14M px whenever the
+ * surface moves (about 1 fps here) or only partly draws it (hard cut lines). */
+const ballSize = () => Math.max(horizon().d, Math.hypot(innerWidth, innerHeight) * 1.25);
+const tf = (cx, cy, d) => {
+  const B = ballSize();
+  return `translate(${cx - B / 2}px,${cy - B / 2}px) scale(${d / B})`;
 };
 const uiEls = () => {
   const st = stage();
@@ -47,6 +53,9 @@ export default function ProjectView() {
     ballWrap.current.style.opacity = 1;
     const W = innerWidth, H = innerHeight, cover = Math.hypot(W, H) * 1.25, hz = horizon();
     ir.style.clipPath = "none";
+    const B = ballSize();
+    b.style.width = b.style.height = B + "px";
+    b.style.boxShadow = `0 ${-B / 100}px ${B / 10}px rgba(232,163,61,.35)`;
     b.getAnimations().forEach((x) => x.cancel());
     ir.getAnimations().forEach((x) => x.cancel());
     let t0;
@@ -70,9 +79,9 @@ export default function ProjectView() {
     }
     const sp = spin.current;
     sp.getAnimations().forEach((x) => x.cancel());
-    // Earth turns on its axis (map scroll); CSS-gradient planets rotate in-plane.
-    if (r.open === "mccallos") sp.animate([{ transform: "translateX(-200px)" }, { transform: "translateX(0)" }], { duration: 90000, iterations: Infinity });
-    else sp.animate([{ transform: "rotate(0deg)" }, { transform: "rotate(360deg)" }], { duration: 90000, iterations: Infinity });
+    // The horizon turns on its axis: two map tiles (each 2B wide) slide one tile on the GPU.
+    sp.style.width = 4 * B + "px";
+    sp.animate([{ transform: `translateX(${-2 * B}px)` }, { transform: "translateX(0)" }], { duration: 90000, iterations: Infinity });
     ct.getAnimations().forEach((x) => x.cancel());
     ct.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400, delay: t0 - 200, fill: "forwards" });
     o.querySelectorAll("[data-stagger]").forEach((el, i) =>
@@ -192,7 +201,6 @@ export default function ProjectView() {
 
   if (!open) return null;
   const d = PROJ[open];
-  const isEarth = open === "mccallos";
   const nextName = PROJ[ORDER[(ORDER.indexOf(open) + 1) % ORDER.length]].name;
   const slots = Array.from({ length: d.slotCount }, (_, i) => `${open}-shot-${i + 2}`);
 
@@ -200,12 +208,8 @@ export default function ProjectView() {
     <div ref={ov} role="dialog" aria-modal="true" aria-label={d.name} onScroll={(e) => { ballWrap.current.style.opacity = String(Math.max(0.25, 1 - (e.currentTarget.scrollTop / innerHeight) * 0.75)); }} style={css("position:fixed;inset:0;z-index:8990;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain")}>
       <div ref={iris} style={css("position:fixed;inset:0;background:#07080a;clip-path:circle(0px at 50% 50%)")} />
       <div ref={ballWrap} style={css("position:fixed;inset:0;pointer-events:none")}>
-        <div ref={ball} style={{ ...css("position:absolute;left:0;top:0;width:100px;height:100px;border-radius:50%;overflow:hidden;box-shadow:0 -1px 10px rgba(232,163,61,.35);transform:scale(0)"), background: d.base }}>
-          {isEarth ? (
-            <div ref={spin} style={{ position: "absolute", left: 0, top: 0, height: "100%", width: 400, backgroundImage: `url(${earthMap})`, backgroundSize: "auto 100%", backgroundRepeat: "repeat-x" }} />
-          ) : (
-            <div ref={spin} style={{ position: "absolute", inset: "-20%", background: d.spin }} />
-          )}
+        <div ref={ball} style={{ ...css("position:absolute;left:0;top:0;width:100px;height:100px;border-radius:50%;overflow:hidden;transform:scale(0)"), background: d.base }}>
+          <div ref={spin} style={{ position: "absolute", left: 0, top: 0, height: "100%", backgroundImage: `url(${d.mapLg})`, backgroundSize: "auto 100%", backgroundRepeat: "repeat-x" }} />
           <div style={css("position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 0%,rgba(255,250,240,.4) 0,transparent 26%),radial-gradient(circle at 50% 18%,transparent 42%,rgba(7,8,10,.86) 78%)")} />
         </div>
       </div>

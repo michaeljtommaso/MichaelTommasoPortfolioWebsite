@@ -1,4 +1,19 @@
 import { work, projects, clientWork, earlierBuilds } from "./portfolioData";
+import earthMap from "../assets/ai/earth-map.webp";
+import empireSm from "../assets/ai/planet-empire-sm.webp";
+import empireLg from "../assets/ai/planet-empire.webp";
+import coursemapSm from "../assets/ai/planet-coursemap-sm.webp";
+import coursemapLg from "../assets/ai/planet-coursemap.webp";
+import guitarSm from "../assets/ai/planet-guitar-sm.webp";
+import guitarLg from "../assets/ai/planet-guitar.webp";
+import mimirSm from "../assets/ai/planet-mimir-sm.webp";
+import mimirLg from "../assets/ai/planet-mimir.webp";
+import ilcolosseoSm from "../assets/ai/planet-ilcolosseo-sm.webp";
+import ilcolosseoLg from "../assets/ai/planet-ilcolosseo.webp";
+import closetSm from "../assets/ai/planet-closet-sm.webp";
+import closetLg from "../assets/ai/planet-closet.webp";
+import earlierSm from "../assets/ai/planet-earlier-sm.webp";
+import earlierLg from "../assets/ai/planet-earlier.webp";
 
 /* ------------------------------------------------------------------ *
  * Orbit scene config. Copy lives in portfolioData.js; this file only
@@ -10,9 +25,10 @@ import { work, projects, clientWork, earlierBuilds } from "./portfolioData";
 /* Orbit order, inner to outer. "Next planet" cycles through it. */
 export const ORDER = ["mccallos", "empire", "ilcolosseo", "closet", "coursemap", "guitar", "mimir", "earlier"];
 
-/* Solar-system rings. rot = ring angle at p .3639 → .8015; scale/ring/label are data-fx specs. */
+/* Solar-system rings. rot = ring angle at p .3639 → .8015; spin = surface rotation (deg) across the scene;
+ * scale/ring/label are data-fx specs. */
 export const PLANETS = [
-  { id: "mccallos", R: 18, r: 1.3, rot: [60, 287.55], spin: -1400, labelLeft: 4.77,
+  { id: "mccallos", R: 18, r: 1.3, rot: [60, 287.55], spin: 1440, labelLeft: 4.77,
     scale: "scale 0:1", ring: "opacity 0.3489:0 0.3639:.5", label: "opacity 0.3639:0 0.3739:.55" },
   { id: "empire", R: 27, r: 1.7, rot: [67.46, 373.78], spin: -1800, labelLeft: 5.93,
     scale: "scale 0.3607:1 0.3787:2.7 0.4135:2.7 0.4315:1 io",
@@ -56,16 +72,17 @@ export const CARDS = [
   { id: "earlier", t0: 0.6994, hold: 0.741, out: 0.7504 },
 ];
 
-/* Planet palettes (CSS stand-ins until each planet's Higgsfield map lands). McCallos uses the Earth map. */
+/* Planet surfaces: 2:1 equirect maps from Higgsfield. `map` (1024px) is used in orbit, `mapLg` (~3300px)
+ * only for the project-view horizon, so the big files load on demand. `base` shows while a map loads. */
 const LOOK = {
-  mccallos: { base: "radial-gradient(circle at 42% 40%,#5f88aa 0,#33597a 40%,#16304a 75%,#0b1a2a 100%)" },
-  empire: { base: "radial-gradient(circle at 45% 45%,#d98b45,#9a4f22 60%,#4a2412)", spin: "repeating-linear-gradient(18deg,rgba(255,206,150,.28) 0 6%,transparent 6% 13%,rgba(70,26,8,.4) 13% 18%,transparent 18% 25%)" },
-  coursemap: { base: "radial-gradient(circle at 45% 45%,#c9d4d9,#7f939e 55%,#2c3940)", spin: "repeating-linear-gradient(-8deg,rgba(255,255,255,.22) 0 5%,transparent 5% 11%,rgba(30,45,56,.35) 11% 15%,transparent 15% 21%)" },
-  guitar: { base: "radial-gradient(circle at 45% 45%,#ead1a0,#b48d52 55%,#4e3a20)", spin: "repeating-linear-gradient(0deg,rgba(255,236,200,.3) 0 4%,transparent 4% 9%,rgba(90,60,30,.35) 9% 12%,transparent 12% 17%)" },
-  mimir: { base: "radial-gradient(circle at 45% 45%,#7c7788,#433f4e 55%,#18171e)", spin: "radial-gradient(14% 10% at 62% 58%,rgba(232,163,61,.85),transparent),repeating-linear-gradient(30deg,rgba(220,214,235,.14) 0 5%,transparent 5% 12%)" },
-  ilcolosseo: { base: "radial-gradient(circle at 45% 45%,#dba878,#a8663c 55%,#4c2a17)", spin: "repeating-linear-gradient(-24deg,rgba(255,226,190,.22) 0 7%,transparent 7% 14%,rgba(90,40,16,.3) 14% 18%,transparent 18% 26%)" },
-  closet: { base: "radial-gradient(circle at 45% 45%,#e8cfc2,#ad8778 55%,#4a3630)", spin: "repeating-linear-gradient(40deg,rgba(255,240,232,.25) 0 5%,transparent 5% 12%)" },
-  earlier: { base: "radial-gradient(circle at 45% 45%,#9a968e,#6b6862 55%,#2e2d2a)", spin: "radial-gradient(circle at 30% 30%,rgba(28,28,30,.5) 0,rgba(28,28,30,.3) 8%,transparent 11%),radial-gradient(circle at 64% 58%,rgba(28,28,30,.5) 0,rgba(28,28,30,.3) 12%,transparent 15%),radial-gradient(circle at 40% 76%,rgba(28,28,30,.45) 0,transparent 8%),radial-gradient(circle at 74% 26%,rgba(28,28,30,.45) 0,transparent 6%)" },
+  mccallos: { map: earthMap, mapLg: earthMap, base: "#16304a" },
+  empire: { map: empireSm, mapLg: empireLg, base: "#4a2412" },
+  coursemap: { map: coursemapSm, mapLg: coursemapLg, base: "#7f939e" },
+  guitar: { map: guitarSm, mapLg: guitarLg, base: "#b48d52" },
+  mimir: { map: mimirSm, mapLg: mimirLg, base: "#433f4e" },
+  ilcolosseo: { map: ilcolosseoSm, mapLg: ilcolosseoLg, base: "#a8663c" },
+  closet: { map: closetSm, mapLg: closetLg, base: "#ad8778" },
+  earlier: { map: earlierSm, mapLg: earlierLg, base: "#6b6862" },
 };
 
 /* Stats strips: numbers taken from the copy itself. */
