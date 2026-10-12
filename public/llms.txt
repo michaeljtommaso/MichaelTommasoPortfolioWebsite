@@ -6,8 +6,8 @@
 
 ## Work
 
-- [McCallos](https://mccallos.com): Chief Technology Officer, May 2026 to present. React/TypeScript web app and Capacitor iOS/Android apps on Firebase for NYC property managers. Pulls 17 city open-data feeds into one compliance calendar of 36 obligations; work orders assign each obligation or repair to a vendor with photo approval and a log of each step. Pilot planned. Code is private.
-- AI Document Agent, Empire Environmental (AI Engineer, summer 2026): a Hermes agent that drafts DDC Site Safety Plans from a contract's bid set, with three-tier retrieval memory and a scoring harness against the firm's approved filings. Drafts score 98/100 across 25 templates (none below 83) at 2.4 minutes each; a vision pipeline cut one query from 413 seconds to 14. Installing at the firm in fall 2026.
+- [McCallos](https://mccallos.com): Chief Technology Officer, May 2026 to present. React/TypeScript web app and Capacitor iOS/Android apps on Firebase for NYC property managers. Pulls 23 city open-data feeds into one compliance calendar of 36 obligations; work orders assign each obligation or repair to a vendor with photo approval and a log of each step. Pilot planned. Code is private.
+- AI Document Agent, Empire Environmental (AI Engineer, summer 2026): a Hermes agent that drafts DDC Site Safety Plans from a contract's bid set, with three-tier retrieval memory and a scoring harness against the firm's approved filings. Drafts average 96/100 across 25 templates at 2.4 minutes each; a vision pipeline cut one query from 413 seconds to 14. Installing at the firm in fall 2026.
 
 ## Projects
 
