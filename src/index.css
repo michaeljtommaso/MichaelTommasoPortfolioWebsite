@@ -63,3 +63,16 @@ button {
 .link-amber:hover {
   color: var(--amber) !important;
 }
+
+/* Lite graphics (lib/quality.js): keep the story, drop continuous GPU work. */
+html[data-quality="lite"] [data-cine-vignette] {
+  display: none;
+}
+html[data-quality="lite"] header {
+  mix-blend-mode: normal !important;
+}
+/* Rasterize each camera layer once and let the compositor scale it, instead of
+ * re-rasterizing at every zoom step (slightly softer during the big zooms). */
+html[data-quality="lite"] .cam {
+  will-change: transform;
+}

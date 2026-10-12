@@ -8,7 +8,10 @@
  *   a[data-cut]           letterbox shutter "cut" to the href target (data-offset in vh)
  * ponytail: the prototype's live film grain and light leak are gone on purpose:
  * full-screen blend + animated blur was the main lag on integrated GPUs.
- * Grain gets baked into the Higgsfield assets instead; the vignette stays (static). */
+ * Grain gets baked into the Higgsfield assets instead; the vignette stays (static).
+ * Lite quality (lib/quality.js) also skips mouse parallax, surface spin (bgx) and blur. */
+
+import { getQuality, onQuality, reportFrame } from "./quality";
 
 const E = {
   lin: (t) => t,
@@ -79,7 +82,7 @@ export function mountCine({ vignette = 0.6, shutter = "#07080a", smooth = 0.14 }
     layer.appendChild(d);
     return d;
   };
-  if (vignette) add(`inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 50%,rgba(0,0,0,${vignette}) 100%)`);
+  if (vignette) add(`inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 50%,rgba(0,0,0,${vignette}) 100%)`).setAttribute("data-cine-vignette", "");
   const bar = "left:0;right:0;height:50.5vh;transform:scaleY(0);background:" + shutter + ";transition:transform .34s cubic-bezier(.7,0,.3,1);z-index:2";
   const top = add("top:0;transform-origin:50% 0;" + bar);
   const bot = add("bottom:0;transform-origin:50% 100%;" + bar);
@@ -109,7 +112,8 @@ export function mountCine({ vignette = 0.6, shutter = "#07080a", smooth = 0.14 }
   document.addEventListener("click", onClick, true);
 
   const parsed = new WeakMap(), smoothed = new WeakMap(), scOf = new WeakMap(), outOf = new WeakMap();
-  let scEls = [], fxEls = [], lastKey = "", settle = 0;
+  let scEls = [], fxEls = [], lastKey = "", settle = 0, lastT = 0, moved = false;
+  const offQuality = onQuality(() => { lastKey = ""; });
   const refresh = () => {
     scEls = [...document.querySelectorAll("[data-scene]")];
     fxEls = [...document.querySelectorAll("[data-fx],[data-mouse]")];
@@ -121,14 +125,23 @@ export function mountCine({ vignette = 0.6, shutter = "#07080a", smooth = 0.14 }
   const mo = new MutationObserver(() => { clearTimeout(mt); mt = setTimeout(refresh, 80); });
   mo.observe(document.body, { childList: true, subtree: true });
 
-  function frame() {
+  function frame(now = performance.now()) {
+    const dt = Math.min(100, now - (lastT || now)) || 16.67;
+    lastT = now;
     if (cineState.paused) return;
-    const dm = Math.abs(tmx - mx) + Math.abs(tmy - my);
-    mx += (tmx - mx) * 0.08;
-    my += (tmy - my) * 0.08;
+    const lite = getQuality() === "lite";
+    // Time-based easing: same feel at 30 fps as at 120 (per-frame easing trails badly when frames drop).
+    const ease = (f) => 1 - Math.pow(1 - f, dt / 16.67);
+    const dm = lite ? 0 : Math.abs(tmx - mx) + Math.abs(tmy - my);
+    mx += (tmx - mx) * ease(0.08);
+    my += (tmy - my) * ease(0.08);
     const key = scrollY + "," + innerWidth + "," + innerHeight;
-    if (key === lastKey && dm < 0.0004 && settle <= 0) return;
-    if (key !== lastKey) settle = 40; else settle--;
+    if (key === lastKey && dm < 0.0004 && settle <= 0) { moved = false; return; }
+    if (key !== lastKey) {
+      if (moved) reportFrame(dt); // only consecutive moving frames measure real scroll performance
+      moved = true;
+      settle = 40;
+    } else settle--;
     lastKey = key;
 
     const docH = document.documentElement.scrollHeight - innerHeight;
@@ -137,7 +150,7 @@ export function mountCine({ vignette = 0.6, shutter = "#07080a", smooth = 0.14 }
     for (const s of scEls) {
       const r = rawP(s);
       let v = smoothed.has(s) ? smoothed.get(s) : r;
-      v = Math.abs(r - v) > 0.25 ? r : v + (r - v) * smooth;
+      v = Math.abs(r - v) > 0.25 ? r : v + (r - v) * ease(smooth);
       smoothed.set(s, v);
       sceneP.set(s, v);
     }
@@ -162,9 +175,10 @@ export function mountCine({ vignette = 0.6, shutter = "#07080a", smooth = 0.14 }
           case "sx": sx = v; tf = true; break;
           case "rot": rot = v; tf = true; break;
           case "opacity": el.style.opacity = v; el.style.visibility = v < 0.005 ? "hidden" : "visible"; break;
-          case "blur": filt.push(`blur(${v}px)`); break;
+          case "blur": if (!lite) filt.push(`blur(${v}px)`); break;
           case "ls": el.style.letterSpacing = v + "em"; break;
           case "bgx": {
+            if (lite) break; // surface holds still
             // Seamless map scroll on the GPU: the element holds two map tiles (data-wrap = one tile's width)
             // and slides within one tile, so it never repaints (background-position would, every frame).
             const w = parseFloat(el.dataset.wrap);
@@ -175,18 +189,20 @@ export function mountCine({ vignette = 0.6, shutter = "#07080a", smooth = 0.14 }
         }
       }
       if (filt.length) el.style.filter = filt.join(" ");
-      const m = parseFloat(el.dataset.mouse || 0);
+      else if (el.style.filter) el.style.filter = "";
+      const m = lite ? 0 : parseFloat(el.dataset.mouse || 0);
       if (tf || m) {
         const t = `translate3d(calc(${tx}${ux} + ${(mx * m).toFixed(2)}px),calc(${ty}${uy} + ${(my * m).toFixed(2)}px),0) scale(${s * sx},${s}) rotate(${rot}deg)`;
         if (outOf.get(el) !== t) { outOf.set(el, t); el.style.transform = t; }
       }
     }
   }
-  const loop = () => { frame(); raf = requestAnimationFrame(loop); };
+  const loop = (t) => { frame(t); raf = requestAnimationFrame(loop); };
   raf = requestAnimationFrame(loop);
   frame();
 
   return () => {
+    offQuality();
     mo.disconnect();
     cancelAnimationFrame(raf);
     removeEventListener("pointermove", onMove);
