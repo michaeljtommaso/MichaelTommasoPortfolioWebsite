@@ -202,7 +202,6 @@ export default function ProjectView() {
   if (!open) return null;
   const d = PROJ[open];
   const nextName = PROJ[ORDER[(ORDER.indexOf(open) + 1) % ORDER.length]].name;
-  const slots = Array.from({ length: d.slotCount }, (_, i) => `${open}-shot-${i + 2}`);
 
   return (
     <div ref={ov} role="dialog" aria-modal="true" aria-label={d.name} onScroll={(e) => { ballWrap.current.style.opacity = String(Math.max(0.25, 1 - (e.currentTarget.scrollTop / innerHeight) * 0.75)); }} style={css("position:fixed;inset:0;z-index:8990;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain")}>
@@ -238,7 +237,7 @@ export default function ProjectView() {
             </section>
           )}
 
-          {(d.shots.length > 0 || slots.length > 0) && (
+          {d.shots.length > 0 && (
             <section style={css("padding:8vh 6vw;background:#07080a;display:flex;flex-direction:column;gap:3vh")}>
               <div style={css("max-width:1400px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:3vh")}>
                 <span data-reveal="" style={css(`${MONO}font-size:11px;letter-spacing:.24em;color:#e8a33d;opacity:0`)}>SCREENSHOTS</span>
@@ -247,16 +246,6 @@ export default function ProjectView() {
                     <img data-kb="" data-src={sh.src} alt={sh.alt} style={css("display:block;width:100%;height:auto")} />
                   </div>
                 ))}
-                {slots.length > 0 && (
-                  <div style={css("display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:2vw")}>
-                    {/* ponytail: dev placeholders until real screenshots are dropped into src/assets/real */}
-                    {slots.map((id) => (
-                      <div key={id} data-reveal="" style={css(`aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;border:1px dashed rgba(236,232,225,.22);${MONO}font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#8a877f;opacity:0`)}>
-                        Screenshot slot · {id}
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
             </section>
           )}

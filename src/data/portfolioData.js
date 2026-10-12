@@ -86,7 +86,7 @@ export const work = [
       },
       {
         label: "Result",
-        text: "Drafts score 98/100 across 25 templates, none below 83, at 2.4 minutes each. When I moved the scanned drawings from text extraction to a vision pipeline, one query dropped from 413 seconds and 3.79M tokens to 14 seconds and 53K.",
+        text: "Drafts average 96/100 across 25 templates at 2.4 minutes each. When I moved the scanned drawings from text extraction to a vision pipeline, one query dropped from 413 seconds and 3.79M tokens to 14 seconds and 53K.",
       },
     ],
     stack: ["Python", "Hermes", "Retrieval", "Vision pipeline", "Evaluation harness"],

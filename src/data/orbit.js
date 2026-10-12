@@ -15,6 +15,20 @@ import closetSm from "../assets/ai/planet-closet-sm.webp";
 import closetLg from "../assets/ai/planet-closet.webp";
 import earlierSm from "../assets/ai/planet-earlier-sm.webp";
 import earlierLg from "../assets/ai/planet-earlier.webp";
+import mccallos2 from "../assets/shots/mccallos-2.webp";
+import mccallos3 from "../assets/shots/mccallos-3.webp";
+import empire2 from "../assets/shots/empire-2.webp";
+import coursemap2 from "../assets/shots/coursemap-2.webp";
+import coursemap3 from "../assets/shots/coursemap-3.webp";
+import guitar2 from "../assets/shots/guitar-2.webp";
+import guitar3 from "../assets/shots/guitar-3.webp";
+import guitar4 from "../assets/shots/guitar-4.webp";
+import mimir2 from "../assets/shots/mimir-2.webp";
+import mimir3 from "../assets/shots/mimir-3.webp";
+import ilcolosseo2 from "../assets/shots/ilcolosseo-2.webp";
+import ilcolosseo3 from "../assets/shots/ilcolosseo-3.webp";
+import closet2 from "../assets/shots/closet-2.webp";
+import closet3 from "../assets/shots/closet-3.webp";
 
 /* ------------------------------------------------------------------ *
  * Orbit scene config. Copy lives in portfolioData.js; this file only
@@ -89,24 +103,54 @@ const LOOK = {
 /* Stats strips: numbers taken from the copy itself. */
 const STATS = {
   mccallos: [{ n: "6", l: "City agencies" }, { n: "14", l: "Local laws" }, { n: "23", l: "City open-data feeds" }, { n: "36", l: "Obligations in one calendar" }],
-  empire: [{ n: "98/100", l: "Across 25 templates" }, { n: "2.4 min", l: "Per draft" }, { n: "413s → 14s", l: "One query, vision pipeline" }, { n: "3.79M → 53K", l: "Tokens, same query" }],
+  empire: [{ n: "96/100", l: "Average, 25 templates" }, { n: "2.4 min", l: "Per draft" }, { n: "413s → 14s", l: "One query, vision pipeline" }, { n: "3.79M → 53K", l: "Tokens, same query" }],
   ilcolosseo: [{ n: "1,150+", l: "Google reviews" }, { n: "27", l: "Old URLs redirected" }, { n: "+140%", l: "Organic clicks" }, { n: "25.3K", l: "Impressions, up 134%" }],
 };
 
-/* Empty screenshot slots per project view (filled with real screenshots later). */
-const SLOTS = { guitar: 3, earlier: 0 };
+/* Extra screenshots per project view (captured 2026-10-11 from the live sites / local builds).
+ * Bifrost and the document agent show invented demo data only: no personal or client content. */
+const EXTRA = {
+  mccallos: [
+    [mccallos2, "McCallos Pulse dashboard: urgent issues, live feed, open work orders and NYC agency violations"],
+    [mccallos3, "McCallos compliance tracker listing Local Law filings with due dates and statuses"],
+  ],
+  empire: [[empire2, "Document agent template board showing each safety-plan section's draft status (demo project)"]],
+  coursemap: [
+    [coursemap2, "Coursemap semester map with prerequisite lines between courses; completed semesters marked green"],
+    [coursemap3, "Coursemap ranking Cornell majors by how much of each one the plan covers"],
+  ],
+  guitar: [
+    [guitar2, "Guitar Tutor capture setup: camera feed (test pattern) with a live chord hint"],
+    [guitar3, "Guitar Tutor lesson panel: target fingering for C major, live hint and latency stats"],
+    [guitar4, "Guitar Tutor amp-tone chain with drive, EQ and cabinet controls"],
+  ],
+  mimir: [
+    [mimir2, "Bifrost approvals page: each design waits for a human yes before it publishes (demo data)"],
+    [mimir3, "Bifrost projects page with open tasks per project (demo data)"],
+  ],
+  ilcolosseo: [
+    [ilcolosseo2, "Il Colosseo menu page, pasta and risotto section"],
+    [ilcolosseo3, "Il Colosseo catering inquiry form"],
+  ],
+  closet: [
+    [closet2, "Closet Curations portfolio section with a before-and-after closet"],
+    [closet3, "Closet Curations consultation booking with the embedded Calendly calendar"],
+  ],
+};
+const extra = (id) => (EXTRA[id] || []).map(([src, alt]) => ({ src, alt }));
 
-const shot = (image, name, real) => (image ? [{ src: image, alt: real ? `Screenshot of ${name}` : "" }] : []);
+/* Main image counts as a screenshot only when it's real UI (the generated chapter art isn't). */
+const shot = (image, name, real) => (image && real ? [{ src: image, alt: `Screenshot of ${name}` }] : []);
 
 const fromWork = (w) => ({
   id: w.id, name: w.name, kicker: w.kicker, problem: w.problem, blocks: w.blocks, stack: w.stack,
   status: w.status, statusNote: w.statusNote, links: w.links, note: w.note, contact: w.contact,
-  shots: shot(w.image, w.name, w.real),
+  shots: [...shot(w.image, w.name, w.real), ...extra(w.id)],
 });
 
 const fromClient = (c) => ({
   id: c.id, name: c.title, kicker: "Freelance client site", problem: c.description, blocks: [],
-  stack: c.stack, links: [{ label: c.linkLabel, href: c.link }], shots: shot(c.image, c.title, true),
+  stack: c.stack, links: [{ label: c.linkLabel, href: c.link }], shots: [...shot(c.image, c.title, true), ...extra(c.id)],
 });
 
 const earlier = {
@@ -122,5 +166,5 @@ const all = [...work.map(fromWork), ...projects.map(fromWork), ...clientWork.map
 
 /* id → everything the card, planet, and project view need. */
 export const PROJ = Object.fromEntries(
-  all.map((p) => [p.id, { ...p, ...LOOK[p.id], stats: STATS[p.id] || [], slotCount: SLOTS[p.id] ?? 2 }])
+  all.map((p) => [p.id, { ...p, ...LOOK[p.id], stats: STATS[p.id] || [] }])
 );
