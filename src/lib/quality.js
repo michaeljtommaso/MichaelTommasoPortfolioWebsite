@@ -1,6 +1,6 @@
 /* Graphics quality: "full" or "lite". Stored on <html data-quality> so CSS and the
  * engine both read it. Lite keeps the whole scroll story and art, and drops the
- * continuous GPU work: mouse parallax, surface spin, vignette, header blend, text blur.
+ * continuous work: mouse parallax, surface spin, vignette, header blend, text blur.
  *
  * Order of precedence: ?quality= URL param > the visitor's saved toggle > device hints.
  * The engine also downgrades to lite once per visit if real scrolling runs under ~40 fps

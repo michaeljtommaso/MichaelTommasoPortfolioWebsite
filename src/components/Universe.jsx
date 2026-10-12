@@ -43,7 +43,7 @@ function PlanetSurface({ map, h, turns }) {
     <div
       data-fx={`bgx 0:0vh 1:${f4(turns * 2 * h)}vh lin`}
       data-wrap={2 * h}
-      style={{ position: "absolute", left: 0, top: 0, height: "100%", width: `${4 * h}vh`, backgroundImage: `url(${map})`, backgroundSize: "auto 100%", backgroundRepeat: "repeat-x", willChange: "transform" }}
+      style={{ position: "absolute", left: 0, top: 0, height: "100%", width: `${4 * h}vh`, backgroundImage: `url(${map})`, backgroundSize: "auto 100%", backgroundRepeat: "repeat-x" }}
     />
   );
 }
@@ -178,7 +178,7 @@ export default function Universe() {
         {/* Composition: shifts framing left/right; holds the three camera layers */}
         <div data-mouse="8" data-fx="x 0.0945:0vw 0.1276:24vw 0.1749:24vw 0.2174:-24vw 0.7523:-24vw 0.8015:0vw io" style={css("pointer-events:none;position:absolute;left:50%;top:50%;width:0;height:0")}>
           {/* L3: galaxy */}
-          <div className="cam" data-fx="x 0.7523:-2375.00vh 0.8015:0vh io; y 0.7523:-791.67vh 0.8015:0vh io; scale 0.7523:79.1667 0.8015:1 0.9669:1.12 io; opacity 0.7486:0 0.7712:1 0.8109:1 0.8393:.5" style={css("position:absolute;left:0;top:0;width:0;height:0;opacity:0")}>
+          <div className="cam" data-fx="x 0.7523:-2375.00vh 0.8015:0vh io; y 0.7523:-791.67vh 0.8015:0vh io; scale 0.7523:79.1667 0.8015:1 0.9669:1.12 io; opacity 0.7486:0 0.7712:1 0.8109:1 0.8393:.5" style={css("position:absolute;left:0;top:0;width:0;height:0;opacity:0;visibility:hidden")}>
             <div style={css("position:absolute;left:0;top:0;width:0;height:0;transform:scaleY(0.5)")}>
               <div data-fx="rot 0.8015:0 1:-55 lin" style={css("position:absolute;left:-75vh;top:-75vh;width:150vh;height:150vh")}>
                 <img src={galaxyImg} alt="" style={css("position:absolute;inset:0;width:100%;height:100%")} />
@@ -195,7 +195,7 @@ export default function Universe() {
           </div>
 
           {/* L2: solar system */}
-          <div className="cam" data-fx="x 0.3167:-218.08vh 0.3639:0vh 0.7523:0vh 0.8015:30vh io; y 0.3167:-158.64vh 0.3639:0vh 0.7523:0vh 0.8015:10vh io; scale 0.3167:24.2308 0.3639:0.85 0.7523:.95 0.8015:.012 io; opacity 0.3107:0 0.3167:1 0.7895:1 0.8015:0" style={css("position:absolute;left:0;top:0;width:0;height:0;opacity:0")}>
+          <div className="cam" data-fx="x 0.3167:-218.08vh 0.3639:0vh 0.7523:0vh 0.8015:30vh io; y 0.3167:-158.64vh 0.3639:0vh 0.7523:0vh 0.8015:10vh io; scale 0.3167:24.2308 0.3639:0.85 0.7523:.95 0.8015:.012 io; opacity 0.3107:0 0.3167:1 0.7895:1 0.8015:0" style={css("position:absolute;left:0;top:0;width:0;height:0;opacity:0;visibility:hidden")}>
             <div data-fx="rot 0:0 1:240 lin" style={css("position:absolute;left:-16vh;top:-16vh;width:32vh;height:32vh;border-radius:50%;background:repeating-conic-gradient(rgba(255,214,150,.13) 0deg 3deg,transparent 3deg 13deg);-webkit-mask-image:radial-gradient(circle closest-side,#000 30%,transparent 100%);mask-image:radial-gradient(circle closest-side,#000 30%,transparent 100%)")} />
             <div style={css("position:absolute;left:-14vh;top:-14vh;width:28vh;height:28vh;border-radius:50%;background:radial-gradient(circle,rgba(232,163,61,.42) 0,rgba(232,163,61,.12) 40%,transparent 70%)")} />
             <div style={css("position:absolute;left:-5vh;top:-5vh;width:10vh;height:10vh;border-radius:50%;overflow:hidden;background:#e8a33d;box-shadow:0 0 6vh rgba(232,163,61,.55)")}>

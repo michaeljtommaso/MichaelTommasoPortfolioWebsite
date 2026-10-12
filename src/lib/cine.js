@@ -9,7 +9,8 @@
  * ponytail: the prototype's live film grain and light leak are gone on purpose:
  * full-screen blend + animated blur was the main lag on integrated GPUs.
  * Grain gets baked into the Higgsfield assets instead; the vignette stays (static).
- * Lite quality (lib/quality.js) also skips mouse parallax, surface spin (bgx) and blur. */
+ * Lite quality (lib/quality.js) also skips mouse parallax, surface spin (bgx) and blur.
+ * Never put will-change on anything under the camera layers: see the note in index.css. */
 
 import { getQuality, onQuality, reportFrame } from "./quality";
 
@@ -140,7 +141,7 @@ export function mountCine({ vignette = 0.6, shutter = "#07080a", smooth = 0.14 }
     if (key !== lastKey) {
       if (moved) reportFrame(dt); // only consecutive moving frames measure real scroll performance
       moved = true;
-      settle = 40;
+      settle = 90;
     } else settle--;
     lastKey = key;
 
@@ -150,7 +151,8 @@ export function mountCine({ vignette = 0.6, shutter = "#07080a", smooth = 0.14 }
     for (const s of scEls) {
       const r = rawP(s);
       let v = smoothed.has(s) ? smoothed.get(s) : r;
-      v = Math.abs(r - v) > 0.25 ? r : v + (r - v) * ease(smooth);
+      const gap = Math.abs(r - v);
+      v = gap > 0.25 || gap < 1e-4 ? r : v + (r - v) * ease(smooth); // snap the last sliver so it lands exactly
       smoothed.set(s, v);
       sceneP.set(s, v);
     }
@@ -175,7 +177,7 @@ export function mountCine({ vignette = 0.6, shutter = "#07080a", smooth = 0.14 }
           case "sx": sx = v; tf = true; break;
           case "rot": rot = v; tf = true; break;
           case "opacity": el.style.opacity = v; el.style.visibility = v < 0.005 ? "hidden" : "visible"; break;
-          case "blur": if (!lite) filt.push(`blur(${v}px)`); break;
+          case "blur": if (!lite && v > 0.01) filt.push(`blur(${v}px)`); break; // no lingering blur(0) layer
           case "ls": el.style.letterSpacing = v + "em"; break;
           case "bgx": {
             if (lite) break; // surface holds still

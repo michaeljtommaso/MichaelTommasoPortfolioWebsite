@@ -69,7 +69,13 @@ export default function ProjectView() {
       ir.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250, delay: 1300, fill: "forwards" });
       b.animate([{ opacity: 0 }, { opacity: 1, offset: 0.12 }, { opacity: 1 }], { duration: 1800, delay: 1300, fill: "forwards", composite: "add" });
       b.animate([{ transform: tf(W / 2, H / 2, cover) }, { transform: tf(hz.cx, hz.cy, hz.d) }], { duration: 1800, delay: 1300, easing: "cubic-bezier(.3,.6,.15,1)", fill: "both" });
-      setTimeout(() => { cineState.paused = true; }, 1600);
+      // Once the iris is opaque, stop rendering the zoomed (up to 90x) stage behind it: left composited,
+      // it starves the GPU tile budget and the project text itself goes undrawn.
+      setTimeout(() => {
+        cineState.paused = true;
+        const s = stage();
+        if (s) s.style.contentVisibility = "hidden";
+      }, 1600);
       t0 = 2000;
     } else {
       ir.style.opacity = 1;
@@ -121,6 +127,8 @@ export default function ProjectView() {
     const r = R.current;
     if (r.busy || !r.open) return;
     r.busy = true;
+    const st0 = stage();
+    if (st0) st0.style.contentVisibility = ""; // re-raster behind the iris before it's revealed
     const o = ov.current, ir = iris.current, b = ball.current, ct = content.current;
     const W = innerWidth, H = innerHeight, cover = Math.hypot(W, H) * 1.25, hz = horizon();
     o.querySelectorAll("[data-back]").forEach((el) => el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, fill: "forwards" }));
@@ -195,6 +203,8 @@ export default function ProjectView() {
       removeEventListener("keydown", onKey);
       cineState.paused = false;
       document.documentElement.style.overflow = "";
+      const s = stage();
+      if (s) s.style.contentVisibility = "";
       r.io?.disconnect();
     };
   }, []);

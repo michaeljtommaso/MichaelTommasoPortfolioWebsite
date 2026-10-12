@@ -13,6 +13,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scrollbar-gutter: stable; /* project view hides overflow; keep the layout from shifting */
+}
+
 html,
 body {
   margin: 0;
@@ -71,11 +75,9 @@ html[data-quality="lite"] [data-cine-vignette] {
 html[data-quality="lite"] header {
   mix-blend-mode: normal !important;
 }
-/* Rasterize each camera layer once and let the compositor scale it, instead of
- * re-rasterizing at every zoom step (slightly softer during the big zooms). */
-html[data-quality="lite"] .cam {
-  will-change: transform;
-}
+/* ponytail: no will-change on the camera layers or planet surfaces. Chrome pins a will-change layer's
+ * raster scale where it first paints; these zoom 79x -> 0.01x, so the pinned tiles blow the GPU tile
+ * budget and whole rectangles go undrawn (audit 2026-10-12, reproduced on the Arc 130V). */
 
 /* ---------- Orbit Lite (phones, MobileOrbit.jsx) ---------- */
 .m-surface {
