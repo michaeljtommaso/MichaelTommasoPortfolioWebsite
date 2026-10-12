@@ -76,3 +76,51 @@ html[data-quality="lite"] header {
 html[data-quality="lite"] .cam {
   will-change: transform;
 }
+
+/* ---------- Orbit Lite (phones, MobileOrbit.jsx) ---------- */
+.m-surface {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 400%; /* two map tiles; each tile is 2x the disk */
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  animation: m-spin 60s linear infinite;
+  will-change: transform;
+}
+@keyframes m-spin {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+.m-moon {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  animation: m-rot 240s linear infinite;
+}
+@keyframes m-rot {
+  to { transform: rotate(360deg); }
+}
+.m-orbit [data-rv] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.m-orbit [data-rv].rv-in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .m-surface, .m-moon { animation: none; }
+  .m-orbit [data-rv] { opacity: 1; transform: none; transition: none; }
+}
+
+/* Shared sections on narrow screens (inline styles set desktop, hence !important). */
+@media (max-width: 760px) {
+  .c-sec { padding: 14vh 6vw 0 !important; min-height: 150svh !important; }
+  .c-grid, .c-fields { grid-template-columns: minmax(0, 1fr) !important; }
+  .c-grid { gap: 7vh !important; }
+  .pv-title { font-size: clamp(38px, 12vw, 64px) !important; overflow-wrap: anywhere; }
+  .pv-desk { display: none !important; }
+}

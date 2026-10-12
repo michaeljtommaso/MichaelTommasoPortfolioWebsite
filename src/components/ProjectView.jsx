@@ -213,14 +213,14 @@ export default function ProjectView() {
           <div style={css("position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 0%,rgba(255,250,240,.4) 0,transparent 26%),radial-gradient(circle at 50% 18%,transparent 42%,rgba(7,8,10,.86) 78%)")} />
         </div>
       </div>
-      <button data-back="" onClick={close} className="btn-ghost" style={css(`position:fixed;left:4vw;top:22px;z-index:3;display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid rgba(236,232,225,.25);background:rgba(7,8,10,.55);color:#ece8e1;${MONO}font-size:11px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;opacity:0`)}>← Back to orbit</button>
-      <span data-back="" style={css(`position:fixed;right:4vw;top:32px;z-index:3;${MONO}font-size:10px;letter-spacing:.2em;color:#8a877f;opacity:0`)}>ESC TO CLOSE</span>
+      <button data-back="" onClick={close} className="btn-ghost" style={css(`position:fixed;left:4vw;top:22px;z-index:3;display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid rgba(236,232,225,.25);background:rgba(7,8,10,.88);color:#ece8e1;${MONO}font-size:11px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;opacity:0`)}>← Back to orbit</button>
+      <span data-back="" className="pv-desk" style={css(`position:fixed;right:4vw;top:32px;z-index:3;${MONO}font-size:10px;letter-spacing:.2em;color:#8a877f;opacity:0`)}>ESC TO CLOSE</span>
 
       <div ref={content} style={css("position:relative;z-index:2;opacity:0")}>
         <div key={open}>
           <section style={css("min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3vh;padding:14vh 6vw 30vh;text-align:center")}>
             <p data-stagger="" style={css(`margin:0;${MONO}font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:#e8a33d;opacity:0`)}>{d.kicker}</p>
-            <h2 data-stagger="" style={css("margin:0;font-size:clamp(52px,min(10vw,18vh),190px);font-weight:700;font-stretch:125%;line-height:.86;letter-spacing:-.03em;text-wrap:balance;opacity:0")}>{d.name}</h2>
+            <h2 data-stagger="" className="pv-title" style={css("margin:0;font-size:clamp(52px,min(10vw,18vh),190px);font-weight:700;font-stretch:125%;line-height:.86;letter-spacing:-.03em;text-wrap:balance;opacity:0")}>{d.name}</h2>
             {d.problem && <p data-stagger="" style={css("margin:0;max-width:820px;font-size:clamp(17px,min(1.6vw,3vh),24px);line-height:1.45;color:#d8d4cb;text-wrap:balance;opacity:0")}>{d.problem}</p>}
             <span data-stagger="" style={css(`margin-top:2vh;${MONO}font-size:10px;letter-spacing:.3em;color:#8a877f;opacity:0`)}>SCROLL ↓</span>
           </section>

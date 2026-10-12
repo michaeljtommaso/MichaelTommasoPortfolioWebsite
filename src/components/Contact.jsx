@@ -23,7 +23,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" data-scene="view" style={css("position:relative;min-height:130vh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;padding:20vh 6vw 0")}>
+    <section id="contact" data-scene="view" className="c-sec" style={css("position:relative;min-height:130vh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;padding:20vh 6vw 0")}>
       {/* Moonrise */}
       <div data-fx="y 0:30vh .8:0vh out" style={css("position:absolute;width:320vh;height:320vh;left:calc(50% - 160vh);top:calc(100% - 26vh)")}>
         <div style={css("position:absolute;inset:0;border-radius:50%;overflow:hidden;background:#55534e;box-shadow:0 -1vh 10vh rgba(232,163,61,.12)")}>
@@ -31,7 +31,7 @@ export default function Contact() {
         </div>
       </div>
 
-      <div style={css("position:relative;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:6vw;align-items:start")}>
+      <div className="c-grid" style={css("position:relative;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:6vw;align-items:start")}>
         <div style={css("display:flex;flex-direction:column;gap:28px")}>
           <span style={css(`${MONO}font-size:11px;letter-spacing:.24em;color:#e8a33d`)}>CONTACT</span>
           <h2 data-fx="opacity .1:0 .35:1; ls .1:.25 .45:-.03 out" style={css("margin:0;font-size:clamp(48px,7vw,132px);font-weight:600;font-stretch:118%;line-height:.9;letter-spacing:-.03em")}>Let's build something.</h2>
@@ -51,7 +51,7 @@ export default function Contact() {
             </div>
           ) : (
             <form onSubmit={submit} style={css("display:flex;flex-direction:column;gap:2px")}>
-              <div style={css("display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:2px")}>
+              <div className="c-fields" style={css("display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:2px")}>
                 <input name="name" placeholder="Name" aria-label="Name" required style={css(FIELD)} />
                 <input name="email" type="email" placeholder="Email" aria-label="Email" required style={css(FIELD)} />
               </div>

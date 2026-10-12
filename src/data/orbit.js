@@ -1,5 +1,6 @@
 import { work, projects, clientWork, earlierBuilds } from "./portfolioData";
 import earthMap from "../assets/ai/earth-map.webp";
+import earthSm from "../assets/ai/earth-map-sm.webp";
 import empireSm from "../assets/ai/planet-empire-sm.webp";
 import empireLg from "../assets/ai/planet-empire.webp";
 import coursemapSm from "../assets/ai/planet-coursemap-sm.webp";
@@ -75,7 +76,7 @@ export const CARDS = [
 /* Planet surfaces: 2:1 equirect maps from Higgsfield. `map` (1024px) is used in orbit, `mapLg` (~3300px)
  * only for the project-view horizon, so the big files load on demand. `base` shows while a map loads. */
 const LOOK = {
-  mccallos: { map: earthMap, mapLg: earthMap, base: "#16304a" },
+  mccallos: { map: earthSm, mapLg: earthMap, base: "#16304a" },
   empire: { map: empireSm, mapLg: empireLg, base: "#4a2412" },
   coursemap: { map: coursemapSm, mapLg: coursemapLg, base: "#7f939e" },
   guitar: { map: guitarSm, mapLg: guitarLg, base: "#b48d52" },
