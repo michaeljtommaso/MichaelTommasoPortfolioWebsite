@@ -61,7 +61,7 @@ export const work = [
       },
       {
         label: "The hard part",
-        text: "I pulled 17 city open-data feeds into one compliance calendar of 36 obligations. Then I built work orders: a manager assigns each obligation or repair to a vendor, approves the job from photos, and keeps a log of each step.",
+        text: "I pulled 23 city open-data feeds into one compliance calendar of 36 obligations. Then I built work orders: a manager assigns each obligation or repair to a vendor, approves the job from photos, and keeps a log of each step.",
       },
     ],
     stack: ["React", "TypeScript", "Firebase", "Cloud Functions", "Capacitor"],

@@ -88,7 +88,7 @@ const LOOK = {
 
 /* Stats strips: numbers taken from the copy itself. */
 const STATS = {
-  mccallos: [{ n: "6", l: "City agencies" }, { n: "14", l: "Local laws" }, { n: "17", l: "City open-data feeds" }, { n: "36", l: "Obligations in one calendar" }],
+  mccallos: [{ n: "6", l: "City agencies" }, { n: "14", l: "Local laws" }, { n: "23", l: "City open-data feeds" }, { n: "36", l: "Obligations in one calendar" }],
   empire: [{ n: "98/100", l: "Across 25 templates" }, { n: "2.4 min", l: "Per draft" }, { n: "413s → 14s", l: "One query, vision pipeline" }, { n: "3.79M → 53K", l: "Tokens, same query" }],
   ilcolosseo: [{ n: "1,150+", l: "Google reviews" }, { n: "27", l: "Old URLs redirected" }, { n: "+140%", l: "Organic clicks" }, { n: "25.3K", l: "Impressions, up 134%" }],
 };
